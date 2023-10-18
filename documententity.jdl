@@ -1,0 +1,14 @@
+entity DocumentInfo {
+  number String required
+  registeredNumber String
+  issuedate LocalDate
+  subject String
+  dpriority String
+  scanPath ImageBlob
+  content String
+  organization String
+ 
+}
+
+filter *
+paginate * with pagination

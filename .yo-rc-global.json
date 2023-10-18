@@ -1,0 +1,8 @@
+{
+  "generator-jhipster:7.9.3": {
+    "promptValues": {
+      "packageName": "documentmanagement.mcit.gov.af",
+      "nativeLanguage": "en"
+    }
+  }
+}

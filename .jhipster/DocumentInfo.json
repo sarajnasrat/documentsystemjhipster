@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20231014052942",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "document_info",
+  "fields": [
+    {
+      "fieldName": "number",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "registeredNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "issuedate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "subject",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dpriority",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "scanPath",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "organization",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "DocumentInfo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}
