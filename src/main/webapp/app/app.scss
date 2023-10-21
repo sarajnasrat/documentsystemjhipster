@@ -2,10 +2,10 @@
 // Import Bootstrap source files from node_modules
 @import '~bootstrap/scss/bootstrap';
 @import 'primereact/resources/themes/lara-light-indigo/theme.css';
-@import "primereact/resources/themes/lara-light-indigo/theme.css";
-@import "primereact/resources/primereact.min.css";
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "primeicons/primeicons.css";
+@import 'primereact/resources/themes/lara-light-indigo/theme.css';
+@import 'primereact/resources/primereact.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'primeicons/primeicons.css';
 @import '~bootstrap/scss/bootstrap';
 
 body {
@@ -15,7 +15,7 @@ body {
 
 a {
   color: #533f03;
-  font-weight: bold;
+  // font-weight: bold;
 }
 
 * {
@@ -37,16 +37,16 @@ a {
     height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
-   padding: 1rem;
+    padding: 1rem;
 
     .card {
-     padding: 1rem;
+      padding: 1rem;
     }
 
     .view-routes {
       height: 100%;
 
-      >div {
+      > div {
         height: 100%;
       }
     }
@@ -79,7 +79,7 @@ Browser Upgrade Prompt
 Custom button styles
 ========================================================================== */
 
-.icon-button>.btn {
+.icon-button > .btn {
   background-color: transparent;
   border-color: transparent;
   padding: 0.5rem;
@@ -144,28 +144,22 @@ Generic styles
 /* padding helpers */
 
 @mixin pad($size, $side) {
-  @if $size=='' {
-    @if $side=='' {
+  @if $size== '' {
+    @if $side== '' {
       .pad {
         padding: 10px !important;
       }
-    }
-
-    @else {
+    } @else {
       .pad {
         padding-#{$side}: 10px !important;
       }
     }
-  }
-
-  @else {
-    @if $side=='' {
+  } @else {
+    @if $side== '' {
       .pad-#{$size} {
         padding: #{$size}px !important;
       }
-    }
-
-    @else {
+    } @else {
       .pad-#{$side}-#{$size} {
         padding-#{$side}: #{$size}px !important;
       }
@@ -220,13 +214,11 @@ Generic styles
 @include pad('100', 'left');
 
 @mixin no-padding($side) {
-  @if $side=='all' {
+  @if $side== 'all' {
     .no-padding {
       padding: 0 !important;
     }
-  }
-
-  @else {
+  } @else {
     .no-padding-#{$side} {
       padding-#{$side}: 0 !important;
     }
@@ -246,13 +238,11 @@ Generic styles
 }
 
 @mixin voffset($size) {
-  @if $size=='' {
+  @if $size== '' {
     .voffset {
       margin-top: 2px !important;
     }
-  }
-
-  @else {
+  } @else {
     .voffset-#{$size} {
       margin-top: #{$size}px !important;
     }
@@ -344,7 +334,6 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   padding: 10px !important;
   font-weight: lighter !important;
   font-size: 15px !important;
-
 }
 
 .svg-inline--fa {
@@ -352,7 +341,7 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 .p-inputtext.p-component.p-autocomplete-input.p-autocomplete-input {
-  width:300px !important;
+  width: 300px !important;
   outline: unset !important;
   height: 40px;
   border-radius: 3px !important;
@@ -362,7 +351,7 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   display: flex;
   flex: 1;
   justify-content: center;
-  flex-direction: row-reverse !important
+  flex-direction: row-reverse !important;
 }
 
 .navigationlink {
@@ -371,7 +360,6 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   display: flex;
   gap: 10px;
   text-decoration: none;
-
 }
 
 .sidbar-item {
@@ -386,24 +374,53 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
   padding: 5px !important;
 }
 
-.p-panelmenu-header-link{
+.p-panelmenu-header-link {
   text-decoration: none !important;
   font-weight: 10px !important;
-  padding: 3px !important;
+  padding: 7px !important;
+  border: none !important;
 }
-.p-menuitem-link{
+.p-menuitem-link {
   text-decoration: none !important;
   padding: 5px !important;
 }
-.p-submenu-list .p-panelmenu-root-submenu{
+.p-submenu-list .p-panelmenu-root-submenu {
   padding: unset !important;
 }
-.p-dropdown-label .p-inputtext{
+.p-dropdown-label .p-inputtext {
   padding: 5px !important;
 }
-.p-dropdown .pdropdown-content{
+.p-dropdown .pdropdown-content {
   padding: 0px !important;
-}.p-dropdown .p-dropdown-label {
+}
+.p-dropdown .p-dropdown-label {
+  padding: 3px !important;
+}
+.rmdp-input {
+  padding: 17px 7px !important;
+  width: 320px !important;
+}
+#sidebar-show {
+  border-radius: none !important;
+  color: #000 !important;
+  border: none !important;
+  background-color: #fbfbfbb8 !important;
+  box-shadow: none !important;
+}
+.p-button.no-outline :link {
+  outline: none !important;
+  border-radius: none !important;
+  box-shadow: none !important;
+}
+.navbar-nav .show > .nav-link,
+.navbar-nav .nav-link.active {
+  color: red !important;
+}
 
- padding: 3px !important;
+[dir='rtl'] .ms-auto {
+  margin-right: auto !important;
+  margin-right: unset !important;
+}
+.ms-auto .my-2 .my-lg-0 .navbar-nav .navbar-nav-scroll {
+  margin-right: unset !important;
 }

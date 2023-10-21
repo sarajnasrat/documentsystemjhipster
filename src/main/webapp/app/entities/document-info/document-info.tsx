@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Table } from 'reactstrap';
+import { Col, Row, Table } from 'reactstrap';
 import { openFile, byteSize, Translate, TextFormat, getSortState, JhiPagination, JhiItemCount, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Column } from 'primereact/column';
@@ -19,6 +20,7 @@ import { faHome, faRefresh, faSearch, faSync } from '@fortawesome/free-solid-svg
 import { Button } from 'primereact/button';
 import { AutoComplete } from 'primereact/autocomplete';
 import { trim } from 'lodash';
+import { searchDocuments } from '../document-info/document-info.reducer';
 export const DocumentInfo = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0);
@@ -31,6 +33,7 @@ export const DocumentInfo = () => {
   const documentInfoList = useAppSelector(state => state.documentInfo.entities);
   const loading = useAppSelector(state => state.documentInfo.loading);
   const totalItems = useAppSelector(state => state.documentInfo.totalItems);
+  const [totalResults, setTotalResults] = useState(0);
 
   const getAllEntities = () => {
     dispatch(
@@ -98,7 +101,6 @@ export const DocumentInfo = () => {
   //   });
   // };
 
-
   const onPageChange = event => {
     setCurrentPage(event.page);
     setPaginationState({
@@ -106,50 +108,51 @@ export const DocumentInfo = () => {
       activePage: event.first / event.rows + 1,
       itemsPerPage: event.rows,
     });
-  }; const [searchResults, setSearchResults] = useState([]);
-  console.log("Search Result" + searchResults)
-  const [selectNumber, setSelectNumber] = useState(null);
-  const [selectSubject, setSelectSubject] = useState(null);
+  };
+  const [searchResults, setSearchResults] = useState([]);
+  const [selectNumber, setSelectNumber] = useState([]);
+  const [selectSubject, setSelectSubject] = useState([]);
   const [selectOrganization, setSelectOrganization] = useState([]);
-  const handleSearch = () => {
-    if (selectNumber || selectSubject || selectOrganization) {
-      axios
-        .get(`http://localhost:8080/api/searchdocument`, {
-          params: {
-            number: selectNumber,
-            subject: selectSubject,
-            organization: selectOrganization,
-          },
-        })
-        .then((response) => {
-          const data = response.data;
-          console.log("Data", data);
-          setSearchResults(data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          setSearchResults([]);
+  const handleSearch = async () => {
+    try {
+      let newResults = [];
+      if (selectNumber || selectSubject || selectOrganization) {
+        const results = await searchDocuments(selectNumber, selectSubject, selectOrganization, currentPage, paginationState.itemsPerPage);
+        newResults = results.content;
+        setTotalResults(results.totalElements);
+      } else {
+        const entities = getEntities({
+          page: currentPage - 1,
+          size: paginationState.itemsPerPage,
+          sort: `${paginationState.sort},${paginationState.order}`,
         });
-    } else {
-      setSearchResults([]); // Clear search results if no search criteria are provided
+
+        setTotalResults(totalItems);
+      }
+
+      setSearchResults(newResults);
+    } catch (error) {
+      console.error('Error:', error.message);
+      setSearchResults([]);
+      setTotalResults(0);
     }
   };
-  const onEmployeeSelect = (e) => {
+  const onEmployeeSelect = e => {
     setSelectNumber(e.value);
-    console.log("values" + e.value)
-    // console.log(e.value)
   };
-  const onSubjectSelect = (e) => {
+  const onSubjectSelect = e => {
     setSelectSubject(e.value);
   };
-  const onOrganizationSelect = (e) => {
+  const onOrganizationSelect = e => {
     setSelectOrganization(e.value);
   };
+  useEffect(() => {
+    handleSearch();
+  }, [currentPage, selectNumber, selectSubject, selectOrganization]);
   const header = (
     <div className="table-header">
-     <div className='d-flex justify-content-end'>
-      
-      {/* <div className="btns-wrap">
+      <div className="d-flex justify-content-end">
+        {/* <div className="btns-wrap">
         <Button
           icon={<FontAwesomeIcon icon={faSync} spin={loading} />}
           onClick={handleSyncList}
@@ -160,63 +163,62 @@ export const DocumentInfo = () => {
           raised
         />
       </div> */}
-      <div className="btns-wrap">
-        <Button
-          iconPos="left"
-          size="small"
-          icon={<FontAwesomeIcon icon="plus" />}
-          label={translate('documentmanagementsytemApp.documentInfo.home.createLabel')}
-          onClick={e => {
-            navigate(`/document-info/new`);
-          }}
-          severity="info"
-        />
+        <div className="btns-wrap">
+          <Button
+            iconPos="left"
+            size="small"
+            icon={<FontAwesomeIcon icon="plus" />}
+            label={translate('documentmanagementsytemApp.documentInfo.home.createLabel')}
+            onClick={e => {
+              navigate(`/document-info/new`);
+            }}
+            severity="info"
+          />
+        </div>
       </div>
- 
-    </div>
-  <div className='d-flex justity-content-end'>
-  <div className="col-md-4 sm-12">
-          <div>  <label htmlFor="" className='form-label'>Document Number:</label></div>
-          <AutoComplete
-            value={selectNumber}
-            field="number"
-            onChange={onEmployeeSelect}
-            className="search-input"
-          />
-        </div>
-        <div className="col-md-4 sm-12">
-          <div>  <label htmlFor="" className='form-label'>Subject:</label></div>
-          <AutoComplete
-            value={selectSubject}
-            field="subject"
-            onChange={onSubjectSelect}
-            className="search-input"
-          />
-        </div>
-        <div className="col-md-4 sm-12">
-          <div>  <label htmlFor="" className='form-label'>Organization:</label></div>
-          <AutoComplete
-            value={selectOrganization}
-            field="organization"
-            onChange={onOrganizationSelect}
-            className="search-input"
-          />
-        </div>
-   
-  </div>
+      <div className="d-flex justity-content-end">
+        <Row>
+          <Col md="4" sm="12">
+            <div className="col-md-4 sm-12">
+              <div>
+                {' '}
+                <label htmlFor="" className="form-label">
+                  Number:
+                </label>
+              </div>
+              <AutoComplete value={selectNumber} field="number" onChange={onEmployeeSelect} className="search-input" />
+            </div>
+          </Col>
+          <Col md="4" sm="12">
+            <div className="col-md-4 sm-12">
+              <div>
+                {' '}
+                <label htmlFor="" className="form-label">
+                  Subject:
+                </label>
+              </div>
+              <AutoComplete value={selectSubject} field="subject" onChange={onSubjectSelect} className="search-input" />
+            </div>
+          </Col>
+          <Col md="4" sm="12">
+            <div className="col-md-4 sm-12">
+              <div>
+                {' '}
+                <label htmlFor="" className="form-label">
+                  Organization:
+                </label>
+              </div>
+              <AutoComplete value={selectOrganization} field="organization" onChange={onOrganizationSelect} className="search-input" />
+            </div>
+          </Col>
+        </Row>
+      </div>
 
       <div className="col-md-6 mt-2">
         <Button onClick={handleSearch} rounded={true} icon="pi pi-search" className="search-btn"></Button>
       </div>
-     
     </div>
-  
   );
-
-
-
-
-
 
   // const actionTemplate = rowData => {
   //   return (
@@ -244,13 +246,13 @@ export const DocumentInfo = () => {
           className="p-button-info"
           onClick={() => navigate(`/document-info/${rowData.id}`)}
         />
-        <Button
+        {/* <Button
           // label="Edit"
           
           icon="pi pi-pencil"
           className="p-button-primary"
           onClick={() => navigate(`/document-info/${rowData.id}/edit`)}
-        />
+        /> */}
         <Button
           // label="Delete"
           icon="pi pi-trash"
@@ -259,7 +261,7 @@ export const DocumentInfo = () => {
         />
       </div>
     );
-  }
+  };
   const imageTemplate = rowData => {
     if (rowData.scanPath) {
       return (
@@ -273,8 +275,6 @@ export const DocumentInfo = () => {
     return null;
   };
 
-
-
   return (
     <div>
       <h2 id="document-info-heading" data-cy="DocumentInfoHeading">
@@ -283,38 +283,36 @@ export const DocumentInfo = () => {
       {header}
       <div className="table-responsive">
         <DataTable
-          size='small'
-          value={documentInfoList}
+          size="small"
+          value={searchResults}
           onPage={onPageChange}
-          totalRecords={totalItems}
-
+          totalRecords={totalResults}
           loading={loading}
           scrollable={true}
-          scrollHeight="70vh"
+          scrollHeight="20vh"
           showGridlines
           stripedRows
           editMode="cell"
           width="700px"
           resizableColumns
-          className='p-datatable-wrapper'
+          className="p-datatable-wrapper"
           dataKey="id"
           emptyMessage="No Document Infos found"
         >
-
           <Column field="number" header="Number"></Column>
-          <Column field="registeredNumber" header="Registered Number" ></Column>
+          <Column field="registeredNumber" header="Registered Number"></Column>
           <Column field="issuedate" header="Issuedate"></Column>
-          <Column field="subject" header="Subject" ></Column>
-          <Column field="dpriority" header="Dpriority" ></Column>
+          <Column field="subject" header="Subject"></Column>
+          <Column field="dpriority" header="Dpriority"></Column>
           {/* <Column field="scanPath" header="Scan Path" sortable filter body={imageTemplate} /> */}
           <Column field="content" header="Content" style={{ whiteSpace: 'normal' }}></Column>
-          <Column field="organization" header="Organization" ></Column>
+          <Column field="organization" header="Organization"></Column>
           <Column header="Actions" body={actionTemplate}></Column>
         </DataTable>
         <Paginator
           first={currentPage * paginationState.itemsPerPage}
           rows={paginationState.itemsPerPage}
-          totalRecords={totalItems}
+          totalRecords={totalResults}
           onPageChange={onPageChange}
         />
       </div>

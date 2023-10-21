@@ -73,6 +73,22 @@ export const deleteEntity = createAsyncThunk(
   },
   { serializeError: serializeAxiosError }
 );
+export const searchDocuments = async (selectNumber, selectSubject, selectOrganization, page, size) => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/searchdocument', {
+      params: {
+        number: selectNumber,
+        subject: selectSubject,
+        organization: selectOrganization,
+        page, // Pass the page parameter
+        size, // Pass the size parameter
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Search Error: ' + error.message);
+  }
+};
 
 // slice
 
