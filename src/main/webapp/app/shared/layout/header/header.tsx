@@ -11,6 +11,10 @@ import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Form from 'react-bootstrap/Form';
 import {
   faArchive,
   faBook,
@@ -38,10 +42,11 @@ import {
   faUserCircle,
   faSignInAlt,
 } from '@fortawesome/free-solid-svg-icons';
-import { Brand } from './header-components';
+import { Brand, BrandIcon } from './header-components';
 import { Menu } from 'primereact/menu';
 import { Button } from 'primereact/button';
-
+import { NavDropdown } from 'react-bootstrap';
+import { AccountMenu } from '../menus';
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -188,11 +193,10 @@ const Header = (props: IHeaderProps) => {
     },
   ];
 
-  const handleMenuClick = item => { };
+  const handleMenuClick = item => {};
   const start = <img alt="logo" src="https://primefaces.org/cdn/primereact/images/logo.png" height="40" className="mr-2"></img>;
-  const accountMenu = () => (
-
-    <div className='d-flex justify-content-space-between'>
+  const AccountMenue = () => (
+    <div className="d-flex justify-content-space-between">
       <div className="localmenu-wrapper pt-1">
         <Dropdown
           dropdownIcon={
@@ -208,38 +212,48 @@ const Header = (props: IHeaderProps) => {
         />
       </div>
       {isAuthenticated && (
-       
-      <div>
-            <i onClick={event => menuRef.current.toggle(event)}>
+        <div>
+          <i onClick={event => menuRef.current.toggle(event)}>
             <FontAwesomeIcon size="2xl" icon={faUserCircle} />
           </i>
           <Menu model={menuItems} popup ref={menuRef} id="popup_menu_left" popupAlignment="left" />
-       
-      </div>
+        </div>
       )}
     </div>
-
-
   );
-
 
   // const accountMenu = 'some';
   return (
-
-    <div dir='ltr'
-      className='p-menuitem'>
+    <div className="p-menuitem">
       {/* {renderDevRibbon()} */}
-      <LoadingBar  className="loading-bar  d-flex justify-content-between" />
-      <Menubar className='bg-black' style={{height:"50px"}} 
+      {/* <LoadingBar className="loading-bar  d-flex justify-content-between" />
+      <Menubar className='bg-black' style={{ height: "50px" }}
         start={Brand}
-        end={accountMenu}
-        
 
-      />
+
+
+      /> */}
+      <Navbar expand="lg" className="d-flex justify-content-end bg-primary">
+        <Container fluid>
+          <Navbar.Brand href=""></Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll" className="flex justify-content-between">
+            <Nav className="my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+              <div>
+                {/* Brand */}
+                <Brand />
+              </div>
+            </Nav>
+            <Nav className="my-2 my-lg-0" style={{ maxHeight: '100px', marginRight: 'unset' }} navbarScroll>
+              <div>
+                <AccountMenue />
+              </div>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     </div>
-
-  )
-
+  );
 };
 
 export default Header;

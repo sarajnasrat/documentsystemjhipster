@@ -3,7 +3,7 @@ import './app.scss';
 import 'app/config/dayjs.ts';
 import { Translate, Storage, translate } from 'react-jhipster';
 import React, { useEffect } from 'react';
-import { Card, Collapse, Nav, Navbar, NavbarToggler } from 'reactstrap';
+import { Card, Col, Collapse, Nav, Navbar, NavbarToggler, Row } from 'reactstrap';
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -20,7 +20,7 @@ import { AccountMenu, AdminMenu, LocaleMenu, EntitiesMenu } from './shared/layou
 import Header from './shared/layout/header/header';
 import EntitiesMenuItems from 'app/entities/menu';
 import { isRTL } from './config/translation';
-import { useState,useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AdminPhoto, DocumentInfo, Home, UserManageMent } from './shared/layout/header/header-components';
 import { Menubar } from 'primereact/menubar';
@@ -29,7 +29,7 @@ import { PanelMenu } from 'primereact/panelmenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faHeartCircleCheck, faTableList, faTachometerAlt, faUser, faUserEdit, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
-
+import { Button } from 'primereact/button';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 export interface IHeaderProps {
@@ -59,38 +59,43 @@ export const App = () => {
   const items = [
     {
       key: '/document-info',
-      label: "DocumentInfo",
+      label: 'DocumentInfo',
     },
     {
       key: '/account/register',
-      label: "Register"
+      label: 'Register',
     },
     {
       key: '/usermanagement',
-      label: "Employee Experience"
+      label: 'Employee Experience',
     },
     {
       key: '/',
-      label: "Employee Experience"
+      label: 'Employee Experience',
     },
   ];
   const customIcon = (
-
     <>
-      <div className='d-flex mx-auto mx-auto rounded-circle mt-2' style={{ backgroundColor: "gray", width: "120px", height: "100px", border: "1px solid white", borderRadius: "30px", alignItems: "center" }}>
+      <div
+        className="d-flex mx-auto mx-auto rounded-circle mt-2"
+        style={{
+          backgroundColor: 'gray',
+          width: '120px',
+          height: '100px',
+          border: '1px solid white',
+          borderRadius: '30px',
+          alignItems: 'center',
+        }}
+      >
         <div>
           <AdminPhoto />
         </div>
-
       </div>
-      <div className='mx-auto'>
-        <h5 className='mx-auto text-center pt-2'>
-          Admin
-        </h5>
-
+      <div className="mx-auto">
+        <h5 className="mx-auto text-center pt-2">Admin</h5>
       </div>
     </>
-  )
+  );
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => document.querySelector('html').setAttribute('dir', isRTL(Storage.session.get('locale')) ? 'rtl' : 'ltr'));
@@ -102,9 +107,13 @@ export const App = () => {
     document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
   };
 
-
-  const SideBar = (props) => {
+  const [show, setShow] = useState(true);
+  const toggleVisible = () => {
+    setShow(!show);
+  };
+  const SideBar = props => {
     const headerComponent = <Header {...props} />;
+
     const navigate = useNavigate();
     const menuRef = useRef(null);
     const navigateMenu = path => {
@@ -112,123 +121,121 @@ export const App = () => {
     };
     const itemss = [
       {
-          label:'File',
-          icon:'pi pi-fw pi-file',
-          items:[
+        label: 'File',
+        icon: 'pi pi-fw pi-file',
+        items: [
+          {
+            label: 'New',
+            icon: 'pi pi-fw pi-plus',
+            items: [
               {
-                  label:'New',
-                  icon:'pi pi-fw pi-plus',
-                  items:[
-                  {
-                      label:'Bookmark',
-                      icon:'pi pi-fw pi-bookmark'
-                  },
-                  {
-                      label:'Video',
-                      icon:'pi pi-fw pi-video'
-                  }
-                  ]
+                label: 'Bookmark',
+                icon: 'pi pi-fw pi-bookmark',
               },
               {
-                  label:'Delete',
-                  icon:'pi pi-fw pi-trash'
+                label: 'Video',
+                icon: 'pi pi-fw pi-video',
               },
-              {
-                  label:'Export',
-                  icon:'pi pi-fw pi-external-link'
-              }
-          ]
+            ],
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-fw pi-trash',
+          },
+          {
+            label: 'Export',
+            icon: 'pi pi-fw pi-external-link',
+          },
+        ],
       },
       {
-          label:'Edit',
-          icon:'pi pi-fw pi-pencil',
-          items:[
-              {
-                  label:'Left',
-                  icon:'pi pi-fw pi-align-left'
-              },
-              {
-                  label:'Right',
-                  icon:'pi pi-fw pi-align-right'
-              },
-              {
-                  label:'Center',
-                  icon:'pi pi-fw pi-align-center'
-              },
-              {
-                  label:'Justify',
-                  icon:'pi pi-fw pi-align-justify'
-              }
-          ]
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        items: [
+          {
+            label: 'Left',
+            icon: 'pi pi-fw pi-align-left',
+          },
+          {
+            label: 'Right',
+            icon: 'pi pi-fw pi-align-right',
+          },
+          {
+            label: 'Center',
+            icon: 'pi pi-fw pi-align-center',
+          },
+          {
+            label: 'Justify',
+            icon: 'pi pi-fw pi-align-justify',
+          },
+        ],
       },
       {
-          label:'Users',
-          icon:'pi pi-fw pi-user',
-          items:[
+        label: 'Users',
+        icon: 'pi pi-fw pi-user',
+        items: [
+          {
+            label: 'New',
+            icon: 'pi pi-fw pi-user-plus',
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-fw pi-user-minus',
+          },
+          {
+            label: 'Search',
+            icon: 'pi pi-fw pi-users',
+            items: [
               {
-                  label:'New',
-                  icon:'pi pi-fw pi-user-plus'
-              },
-              {
-                  label:'Delete',
-                  icon:'pi pi-fw pi-user-minus'
-              },
-              {
-                  label:'Search',
-                  icon:'pi pi-fw pi-users',
-                  items:[
+                label: 'Filter',
+                icon: 'pi pi-fw pi-filter',
+                items: [
                   {
-                      label:'Filter',
-                      icon:'pi pi-fw pi-filter',
-                      items:[
-                          {
-                              label:'Print',
-                              icon:'pi pi-fw pi-print'
-                          }
-                      ]
+                    label: 'Print',
+                    icon: 'pi pi-fw pi-print',
                   },
-                  {
-                      icon:'pi pi-fw pi-bars',
-                      label:'List'
-                  }
-                  ]
-              }
-          ]
+                ],
+              },
+              {
+                icon: 'pi pi-fw pi-bars',
+                label: 'List',
+              },
+            ],
+          },
+        ],
       },
       {
-          label:'Events',
-          icon:'pi pi-fw pi-calendar',
-          items:[
+        label: 'Events',
+        icon: 'pi pi-fw pi-calendar',
+        items: [
+          {
+            label: 'Edit',
+            icon: 'pi pi-fw pi-pencil',
+            items: [
               {
-                  label:'Edit',
-                  icon:'pi pi-fw pi-pencil',
-                  items:[
-                  {
-                      label:'Save',
-                      icon:'pi pi-fw pi-calendar-plus'
-                  },
-                  {
-                      label:'Delete',
-                      icon:'pi pi-fw pi-calendar-minus'
-                  }
-                  ]
+                label: 'Save',
+                icon: 'pi pi-fw pi-calendar-plus',
               },
               {
-                  label:'Archive',
-                  icon:'pi pi-fw pi-calendar-times',
-                  items:[
-                  {
-                      label:'Remove',
-                      icon:'pi pi-fw pi-calendar-minus'
-                  }
-                  ]
-              }
-          ]
-      }
-  ];
+                label: 'Delete',
+                icon: 'pi pi-fw pi-calendar-minus',
+              },
+            ],
+          },
+          {
+            label: 'Archive',
+            icon: 'pi pi-fw pi-calendar-times',
+            items: [
+              {
+                label: 'Remove',
+                icon: 'pi pi-fw pi-calendar-minus',
+              },
+            ],
+          },
+        ],
+      },
+    ];
 
-    
-    
     const itemsss = [
       // {
       //   label: translate('global.menu.home'),
@@ -256,7 +263,7 @@ export const App = () => {
         // icon: <FontAwesomeIcon icon={faScrewdriverWrench} size="xs" />,
         className: 'transparent-font-family color-white',
         visible: isAuthenticated && isAdmin,
-  
+
         items: [
           {
             label: translate('global.menu.admin.userManagement'),
@@ -297,13 +304,14 @@ export const App = () => {
         ],
       },
     ];
+
     return (
-      <div className="sidebar" style={{ listStyleType: "none", width: "230px", padding: "15px" }}>
-        <div >
-          {customIcon}
-          <div className='sidbar-item'>
-          <Home />
-        </div>
+      <div className="sidebar" style={{ listStyleType: 'none', width: '200px', padding: '15px' }}>
+        <div>
+          {/* {customIcon} */}
+          <div className="sidbar-item">
+            <Home />
+          </div>
           <PanelMenu model={itemsss} className="w-full md:w-25rem" />
         </div>
         {/* <Header
@@ -323,7 +331,7 @@ export const App = () => {
           ))}
         </div>
       </div> */}
-     
+
         {/* <div className='sidbar-item'>
           <DocumentInfo />
         </div>
@@ -336,36 +344,76 @@ export const App = () => {
         <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
         <AccountMenu isAuthenticated={props.isAuthenticated} />
  */}
-
       </div>
-    )
-
+    );
   };
   return (
     <BrowserRouter basename={baseHref}>
-      <div className="app-container" >
+      <div className="app-container">
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
-        <ErrorBoundary>
-          <Header
-            isAuthenticated={isAuthenticated}
-            isAdmin={isAdmin}
-            currentLocale={currentLocale}
-            ribbonEnv={ribbonEnv}
-            isInProduction={isInProduction}
-            isOpenAPIEnabled={isOpenAPIEnabled}
-          />
-        </ErrorBoundary>
-        <div className='d-flex justify-content-space-between'>
-          {isAdmin && <SideBar />}
-          <div className="container-fluid view-container" id="app-view-container">
-            <Card className="jh-card">
-              <ErrorBoundary>
-                <AppRoutes />
-              </ErrorBoundary>
-            </Card>
-            {/* <Footer /> */}
-          </div>
+        <div>
+          <ErrorBoundary>
+            <Header
+              isAuthenticated={isAuthenticated}
+              isAdmin={isAdmin}
+              currentLocale={currentLocale}
+              ribbonEnv={ribbonEnv}
+              isInProduction={isInProduction}
+              isOpenAPIEnabled={isOpenAPIEnabled}
+            />
+          </ErrorBoundary>
         </div>
+        <Row mb="4">
+          {show ? (
+            <>
+              <Col sm="12" md="2">
+                <SideBar />
+              </Col>
+              <Col sm="12" md="10">
+                <div className="d-flex justify-content-space-between">
+                  <div>
+                    <Button
+                      id="sidebar-show"
+                      className="no-outline"
+                      style={{ backgroundColor: 'GrayText', padding: 'none', borderRadius: 'none' }}
+                      icon="pi pi-list"
+                      onClick={toggleVisible}
+                    ></Button>
+                  </div>
+                  <div className="container-fluid view-container" id="app-view-container">
+                    <Card className="jh-card">
+                      <ErrorBoundary>
+                        <AppRoutes />
+                      </ErrorBoundary>
+                    </Card>
+                    {/* <Footer /> */}
+                  </div>
+                </div>
+              </Col>
+            </>
+          ) : (
+            <Col sm="12" md="12" className="d-flex">
+              <div>
+                <Button
+                  id="sidebar-show"
+                  className="no-outline align-items-baseline"
+                  style={{ backgroundColor: 'GrayText', padding: 'none', borderRadius: 'none' }}
+                  icon="pi pi-list"
+                  onClick={toggleVisible}
+                ></Button>
+              </div>
+
+              <div className="container-fluid view-container" id="app-view-container">
+                <Card className="jh-card">
+                  <ErrorBoundary>
+                    <AppRoutes />
+                  </ErrorBoundary>
+                </Card>
+                {/* <Footer /> */}
+              </div>
+            </Col>
+          )}
+        </Row>
       </div>
     </BrowserRouter>
   );

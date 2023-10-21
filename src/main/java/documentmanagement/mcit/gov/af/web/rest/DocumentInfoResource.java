@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
@@ -206,48 +207,59 @@ public class DocumentInfoResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
-@GetMapping("/searchdocument")
-public ResponseEntity<Object> searchDocumentByNumberAndSubject(
-    @RequestParam(name = "number", required = false) String number,
-    @RequestParam(name = "subject", required = false) String subject,
-    @RequestParam(name = "organization", required = false) String organization,
-    @RequestParam(name = "sortField", required = false, defaultValue = "issuedate") String sortField,
-    @RequestParam(name = "sortDirection", required = false, defaultValue = "asc") String sortDirection) {
 
-    try {
-        Sort.Direction direction = Sort.Direction.ASC;
-        if (sortDirection.equalsIgnoreCase("desc")) {
-            direction = Sort.Direction.DESC;
+    @GetMapping("/searchdocument")
+    public ResponseEntity<Page<DocumentInfo>> searchDocumentByNumberAndSubject(
+        @RequestParam(name = "number", required = false) String number,
+        @RequestParam(name = "subject", required = false) String subject,
+        @RequestParam(name = "organization", required = false) String organization,
+        @RequestParam(name = "page", defaultValue = "0") int page,
+        @RequestParam(name = "size", defaultValue = "5") int size,
+        @RequestParam(name = "sortField", defaultValue = "issuedate") String sortField,
+        @RequestParam(name = "sortDirection", defaultValue = "asc") String sortDirection
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortField));
+            Page<DocumentInfo> documentInfos;
+
+            if (
+                number != null &&
+                !number.isEmpty() &&
+                subject != null &&
+                !subject.isEmpty() &&
+                organization != null &&
+                !organization.isEmpty()
+            ) {
+                documentInfos =
+                    documentInfoRepository.findByNumberContainingIgnoreCaseAndSubjectContainingIgnoreCaseAndOrganizationContainingIgnoreCase(
+                        number,
+                        subject,
+                        organization,
+                        pageable
+                    );
+            } else if (number != null && !number.isEmpty() && subject != null && !subject.isEmpty()) {
+                documentInfos =
+                    documentInfoRepository.findByNumberContainingIgnoreCaseAndSubjectContainingIgnoreCase(number, subject, pageable);
+            } else if (number != null && !number.isEmpty()) {
+                documentInfos = documentInfoRepository.findByNumberContainingIgnoreCase(number, pageable);
+            } else if (subject != null && !subject.isEmpty()) {
+                documentInfos = documentInfoRepository.findBySubjectContainingIgnoreCase(subject, pageable);
+            } else if (organization != null && !organization.isEmpty()) {
+                documentInfos = documentInfoRepository.findByOrganizationContainingIgnoreCase(organization, pageable);
+            } else {
+                String message = "No matching documents found.";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Page.empty());
+            }
+
+            if (documentInfos.isEmpty()) {
+                String message = "No matching documents found.";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Page.empty());
+            } else {
+                return ResponseEntity.ok(documentInfos);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // You can log the exception for debugging
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        Sort sort = Sort.by(direction, sortField);
-
-        List<DocumentInfo> documentInfos;
-
-        if (number != null && !number.isEmpty() && subject != null && !subject.isEmpty() && organization != null && !organization.isEmpty()) {
-            documentInfos = documentInfoRepository.findByNumberContainingIgnoreCaseAndSubjectContainingIgnoreCaseAndOrganizationContainingIgnoreCase(number, subject, organization, sort);
-        } else if (number != null && !number.isEmpty() && subject != null && !subject.isEmpty()) {
-            documentInfos = documentInfoRepository.findByNumberContainingIgnoreCaseAndSubjectContainingIgnoreCase(number, subject, sort);
-        } else if (number != null && !number.isEmpty()) {
-            documentInfos = documentInfoRepository.findByNumberContainingIgnoreCase(number, sort);
-        } else if (subject != null && !subject.isEmpty()) {
-            documentInfos = documentInfoRepository.findBySubjectContainingIgnoreCase(subject, sort);
-        } else if (organization != null && !organization.isEmpty()) {
-            documentInfos = documentInfoRepository.findByOrganizationContainingIgnoreCase(organization, sort);
-        } else {
-            String message = "No matching documents found.";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
-        }
-
-        if (documentInfos.isEmpty()) {
-            String message = "No matching documents found.";
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
-        } else {
-            return ResponseEntity.ok(documentInfos);
-        }
-    } catch (Exception e) {
-        e.printStackTrace(); // You can log the exception for debugging
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-}
-
 }

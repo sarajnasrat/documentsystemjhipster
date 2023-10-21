@@ -25,7 +25,7 @@ export const Login = () => {
     navigate('/');
   };
 
-  const { from } = (location.state as any) || { from: { pathname: '/', search: location.search } };
+  const { from } = (location.state as any) || { from: { pathname: '/document-info', search: location.search } };
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }
