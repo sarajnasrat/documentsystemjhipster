@@ -34,7 +34,6 @@ export const DocumentInfo = () => {
   const loading = useAppSelector(state => state.documentInfo.loading);
   const totalItems = useAppSelector(state => state.documentInfo.totalItems);
   const [totalResults, setTotalResults] = useState(0);
-
   const getAllEntities = () => {
     dispatch(
       getEntities({
@@ -44,7 +43,6 @@ export const DocumentInfo = () => {
       })
     );
   };
-
   const sortEntities = () => {
     getAllEntities();
     const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
@@ -119,6 +117,7 @@ export const DocumentInfo = () => {
       if (selectNumber || selectSubject || selectOrganization) {
         const results = await searchDocuments(selectNumber, selectSubject, selectOrganization, currentPage, paginationState.itemsPerPage);
         newResults = results.content;
+        console.log(newResults);
         setTotalResults(results.totalElements);
       } else {
         const entities = getEntities({
@@ -148,10 +147,16 @@ export const DocumentInfo = () => {
   };
   useEffect(() => {
     handleSearch();
-  }, [currentPage, selectNumber, selectSubject, selectOrganization]);
+  }, [currentPage]);
   const header = (
     <div className="table-header">
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-between">
+        <div>
+          <h2 id="document-info-heading" data-cy="DocumentInfoHeading">
+            <Translate contentKey="documentmanagementsytemApp.documentInfo.home.title">Document List</Translate>
+          </h2>
+        </div>
+
         {/* <div className="btns-wrap">
         <Button
           icon={<FontAwesomeIcon icon={faSync} spin={loading} />}
@@ -162,7 +167,7 @@ export const DocumentInfo = () => {
          
           raised
         />
-      </div> */}
+        </div> */}
         <div className="btns-wrap">
           <Button
             iconPos="left"
@@ -183,7 +188,7 @@ export const DocumentInfo = () => {
               <div>
                 {' '}
                 <label htmlFor="" className="form-label">
-                  Number:
+                  {translate('documentmanagementsytemApp.documentInfo.number')}:
                 </label>
               </div>
               <AutoComplete value={selectNumber} field="number" onChange={onEmployeeSelect} className="search-input" />
@@ -194,7 +199,7 @@ export const DocumentInfo = () => {
               <div>
                 {' '}
                 <label htmlFor="" className="form-label">
-                  Subject:
+                  {translate('documentmanagementsytemApp.documentInfo.subject')}:
                 </label>
               </div>
               <AutoComplete value={selectSubject} field="subject" onChange={onSubjectSelect} className="search-input" />
@@ -205,7 +210,7 @@ export const DocumentInfo = () => {
               <div>
                 {' '}
                 <label htmlFor="" className="form-label">
-                  Organization:
+                  {translate('documentmanagementsytemApp.documentInfo.organization')}:
                 </label>
               </div>
               <AutoComplete value={selectOrganization} field="organization" onChange={onOrganizationSelect} className="search-input" />
@@ -277,9 +282,6 @@ export const DocumentInfo = () => {
 
   return (
     <div>
-      <h2 id="document-info-heading" data-cy="DocumentInfoHeading">
-        <Translate contentKey="documentmanagementsytemApp.documentInfo.home.title">Document List</Translate>
-      </h2>
       {header}
       <div className="table-responsive">
         <DataTable
@@ -289,7 +291,7 @@ export const DocumentInfo = () => {
           totalRecords={totalResults}
           loading={loading}
           scrollable={true}
-          scrollHeight="20vh"
+          scrollHeight="30vh"
           showGridlines
           stripedRows
           editMode="cell"
@@ -297,24 +299,31 @@ export const DocumentInfo = () => {
           resizableColumns
           className="p-datatable-wrapper"
           dataKey="id"
-          emptyMessage="No Document Infos found"
+          emptyMessage={translate('documentmanagementsytemApp.documentInfo.home.notFound')}
         >
-          <Column field="number" header="Number"></Column>
-          <Column field="registeredNumber" header="Registered Number"></Column>
-          <Column field="issuedate" header="Issuedate"></Column>
-          <Column field="subject" header="Subject"></Column>
-          <Column field="dpriority" header="Dpriority"></Column>
+          <Column field="id" header={translate('documentmanagementsytemApp.documentInfo.id')}></Column>
+          <Column field="number" header={translate('documentmanagementsytemApp.documentInfo.number')}></Column>
+          <Column field="registeredNumber" header={translate('documentmanagementsytemApp.documentInfo.registeredNumber')}></Column>
+          <Column field="issuedate" header={translate('documentmanagementsytemApp.documentInfo.issuedate')}></Column>
+          <Column field="subject" header={translate('documentmanagementsytemApp.documentInfo.subject')}></Column>
+          <Column field="dpriority" header={translate('documentmanagementsytemApp.documentInfo.dpriority')}></Column>
           {/* <Column field="scanPath" header="Scan Path" sortable filter body={imageTemplate} /> */}
-          <Column field="content" header="Content" style={{ whiteSpace: 'normal' }}></Column>
-          <Column field="organization" header="Organization"></Column>
-          <Column header="Actions" body={actionTemplate}></Column>
+          <Column
+            field="content"
+            header={translate('documentmanagementsytemApp.documentInfo.content')}
+            style={{ whiteSpace: 'normal' }}
+          ></Column>
+          <Column field="organization" header={translate('documentmanagementsytemApp.documentInfo.organization')}></Column>
+          <Column header={translate('documentmanagementsytemApp.documentInfo.action')} body={actionTemplate}></Column>
         </DataTable>
-        <Paginator
-          first={currentPage * paginationState.itemsPerPage}
-          rows={paginationState.itemsPerPage}
-          totalRecords={totalResults}
-          onPageChange={onPageChange}
-        />
+        <div>
+          <Paginator
+            first={currentPage * paginationState.itemsPerPage}
+            rows={paginationState.itemsPerPage}
+            totalRecords={totalResults}
+            onPageChange={onPageChange}
+          />
+        </div>
       </div>
     </div>
   );

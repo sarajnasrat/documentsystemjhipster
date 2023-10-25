@@ -2,30 +2,36 @@
   "documentmanagementsytemApp": {
     "documentInfo": {
       "home": {
-        "title": "Document Infos",
+        "title": "معومات سند",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Document Info",
-        "createOrEditLabel": "Create or edit a Document Info",
-        "notFound": "No Document Infos found"
+        "createLabel": "سند جدید",
+        "createOrEditLabel": "معلومات سند جدید",
+        "notFound": "هیچ سندی دریافت نشد",
+        "documentmanagementsytem": "سیستم مدیریت اسناد"
       },
-      "created": "A new Document Info is created with identifier {{ param }}",
-      "updated": "A Document Info is updated with identifier {{ param }}",
-      "deleted": "A Document Info is deleted with identifier {{ param }}",
+      "created": "یک سند جدید اضافه کردید {{ param }}",
+      "updated": "یک سند جدید بروز شد {{ param }}",
+      "deleted": "یک سند خذف شد {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Document Info {{ id }}?"
+        "question": "آیا می خواهید سند را خذف کنید {{ id }}?"
       },
       "detail": {
-        "title": "Document Info"
+        "title": "معومات سند"
       },
-      "id": "ID",
-      "number": "Number",
-      "registeredNumber": "Registered Number",
-      "issuedate": "Issuedate",
-      "subject": "Subject",
-      "dpriority": "Dpriority",
-      "scanPath": "Scan Path",
-      "content": "Content",
-      "organization": "Organization"
+      "id": "آی دی",
+      "number": "شماره",
+      "registeredNumber": "نمبر ثبت",
+      "issuedate": "تاریخ صادره",
+      "subject": "موضوع",
+      "dpriority": "اولویت",
+      "scanPath": "سکن سند",
+      "content": "جذیات",
+      "organization": "اداره",
+      "action": "عمل",
+      "selectPriority": "اولویت سند",
+      "normal": "عادی",
+      "confidential": "محرم",
+      "mostConfidential": "اشد محرم"
     }
   }
 }

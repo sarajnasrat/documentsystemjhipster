@@ -6,7 +6,8 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Create New",
         "createOrEditLabel": "Create or edit a Document Info",
-        "notFound": "No Document Infos found"
+        "notFound": "No Document Infos found",
+        "documentmanagementsytem": "DocumentManagement"
       },
       "created": "A new Document Info is created with identifier {{ param }}",
       "updated": "A Document Info is updated with identifier {{ param }}",
@@ -25,7 +26,12 @@
       "dpriority": "Dpriority",
       "scanPath": "Scan Path",
       "content": "Content",
-      "organization": "Organization"
+      "organization": "Organization",
+      "action": "Action",
+      "selectPriority": "Select Priority",
+      "normal": "Normal",
+      "confidential": "Confedential",
+      "mostConfidential": "Most Confedential"
     }
   }
 }

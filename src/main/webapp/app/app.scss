@@ -34,7 +34,7 @@ a {
 
   .view-container {
     width: 100%;
-    height: calc(100% - 40px);
+    // height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
@@ -423,4 +423,7 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 .ms-auto .my-2 .my-lg-0 .navbar-nav .navbar-nav-scroll {
   margin-right: unset !important;
+}
+.p-paginator .p-component {
+  padding: unset !important;
 }

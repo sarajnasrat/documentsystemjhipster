@@ -1,5 +1,5 @@
 import React from 'react';
-import { Translate } from 'react-jhipster';
+import { Translate, translate } from 'react-jhipster';
 
 import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
 import { NavLink as Link } from 'react-router-dom';
@@ -31,7 +31,7 @@ export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
     <BrandIcon />
     <span className="brand-title">
-      <Translate contentKey="global.title">Documentmanagementsytem</Translate>
+      <Translate contentKey="documentmanagementsytemApp.documentInfo.home.documentmanagementsytem"> Document Management System</Translate>
     </span>
     <span className="navbar-version">{VERSION}</span>
   </NavbarBrand>

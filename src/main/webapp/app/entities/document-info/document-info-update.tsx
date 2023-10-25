@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { createEntity, getEntity, updateEntity, reset } from './document-info.reducer';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
-const chooseOptions = { label: 'Browse', icon: 'pi pi-fw pi-plus' };
+
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 import { Calendar } from 'react-multi-date-picker';
 import arabic from 'react-date-object/calendars/arabic';
@@ -18,6 +18,7 @@ import arabic_fa from 'react-date-object/locales/arabic_fa';
 import { format } from 'date-fns';
 import arabic_ar from 'react-date-object/locales/arabic_ar';
 import arabic_en from 'react-date-object/locales/arabic_en';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type FormData = {
   number: string;
@@ -30,10 +31,9 @@ type FormData = {
   scanPath: FileList | null;
 };
 const priorityOptions = [
-  { label: 'Confidential', value: 'confidential' },
-  { label: 'More Confidential', value: 'more_confidential' },
-  { label: 'Most Confidential', value: 'most_confidential' },
-  { label: 'Normal', value: 'normal' },
+  { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.normal">Save</Translate>, value: 'confidential' },
+  { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.confidential">Save</Translate>, value: 'most_confidential' },
+  { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.mostConfidential">Save</Translate>, value: 'normal' },
 ];
 export const DocumentInfoUpdate = () => {
   const dispatch = useAppDispatch();
@@ -119,7 +119,7 @@ export const DocumentInfoUpdate = () => {
       <Row className="justify-content-center">
         <Col md="12">
           <h2 id="documentmanagementsytemApp.documentInfo.home.createOrEditLabel" data-cy="DocumentInfoCreateUpdateHeading">
-            Create or edit a DocumentInfo
+            {translate('documentmanagementsytemApp.documentInfo.home.createOrEditLabel')}
           </h2>
         </Col>
       </Row>
@@ -143,7 +143,7 @@ export const DocumentInfoUpdate = () => {
           <Col sm="12" md="4">
             <div>
               <label htmlFor="document-info-number" className="form-label">
-                Number
+                {translate('documentmanagementsytemApp.documentInfo.number')}
               </label>
               <Controller
                 name="number"
@@ -161,7 +161,7 @@ export const DocumentInfoUpdate = () => {
             </div>
             <div>
               <label htmlFor="document-info-registeredNumber" className="form-label">
-                Registered Number
+                {translate('documentmanagementsytemApp.documentInfo.registeredNumber')}
               </label>
               <Controller
                 name="registeredNumber"
@@ -180,7 +180,7 @@ export const DocumentInfoUpdate = () => {
 
             <div>
               <label htmlFor="document-info-organization" className="form-label">
-                Organization
+                {translate('documentmanagementsytemApp.documentInfo.organization')}
               </label>
               <Controller
                 name="organization"
@@ -197,7 +197,7 @@ export const DocumentInfoUpdate = () => {
             </div>
             <div>
               <label htmlFor="document-info-issuedate" className="form-label">
-                Issue Date
+                {translate('documentmanagementsytemApp.documentInfo.issuedate')}
               </label>
               <Controller
                 control={control}
@@ -233,7 +233,7 @@ export const DocumentInfoUpdate = () => {
             </div>
             <div>
               <label htmlFor="document-info-dpriority" className="form-label">
-                Priority
+                {translate('documentmanagementsytemApp.documentInfo.dpriority')}
               </label>
               <Controller
                 name="dpriority"
@@ -247,7 +247,7 @@ export const DocumentInfoUpdate = () => {
                       value={value}
                       options={priorityOptions}
                       onChange={e => onChange(e.value)}
-                      placeholder={'Select Priority'}
+                      placeholder={translate('documentmanagementsytemApp.documentInfo.selectPriority')}
                       className="w-full md:w-20rem"
                     />
                     {error && <div className="error text-danger">{error.message}</div>}
@@ -256,18 +256,18 @@ export const DocumentInfoUpdate = () => {
               />
             </div>
             <div className="mt-5">
-              <Button tag={Link} icon="fa" to="/document-info" replace color="info">
-                Back
+              <Button tag={Link} icon="pi pi-back" to="/document-info" replace color="info">
+                <FontAwesomeIcon icon="arrow-left" /> <Translate contentKey="entity.action.back">Save</Translate>
               </Button>
-              <Button color="primary" id="save-entity" type="submit" disabled={updating}>
-                Save
+              <Button color="primary" icon="pi pi-save" id="save-entity" type="submit" disabled={updating}>
+                <FontAwesomeIcon icon="save" /> <Translate contentKey="entity.action.save">Save</Translate>
               </Button>
             </div>
           </Col>
           <Col md="4" sm="12">
             <div>
               <label htmlFor="document-info-subject" className="form-label">
-                Subject
+                {translate('documentmanagementsytemApp.documentInfo.subject')}
               </label>
               <Controller
                 name="subject"
@@ -285,7 +285,7 @@ export const DocumentInfoUpdate = () => {
 
             <div>
               <label htmlFor="document-info-content" className="form-label">
-                Content
+                {translate('documentmanagementsytemApp.documentInfo.content')}
               </label>
               <Controller
                 name="content"
@@ -304,14 +304,15 @@ export const DocumentInfoUpdate = () => {
           <Col md="4" sm="12">
             <div>
               <label htmlFor="document-info-scanPath" className="form-label">
-                Scan Path
+                {translate('documentmanagementsytemApp.documentInfo.scanPath')}
               </label>
               <FileUpload
                 name="scanPath"
                 url={'/api/upload'}
-                chooseOptions={chooseOptions}
+                // chooseOptions={chooseOptions}
                 multiple={false}
                 onSelect={handleImageChange}
+                chooseLabel={translate('global.selectFile')}
                 accept="image/*"
                 auto
                 maxFileSize={1000000}
