@@ -1,23 +1,23 @@
-import thunk from 'redux-thunk';
 import axios from 'axios';
-import sinon from 'sinon';
 import { Storage } from 'react-jhipster';
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import sinon from 'sinon';
 
 import authentication, {
-  getSession,
-  getAccount,
+  authError,
   authenticate,
-  login,
+  clearAuth,
+  clearAuthToken,
   clearAuthentication,
+  getAccount,
+  getSession,
+  initialState,
+  login,
   logout,
   logoutSession,
-  clearAuthToken,
-  authError,
-  clearAuth,
-  initialState,
 } from 'app/shared/reducers/authentication';
-import { updateLocale, setLocale } from 'app/shared/reducers/locale';
+import { setLocale, updateLocale } from 'app/shared/reducers/locale';
 
 describe('Authentication reducer tests', () => {
   function isAccountEmpty(state): boolean {
@@ -156,7 +156,7 @@ describe('Authentication reducer tests', () => {
     const resolvedObject = { value: 'whatever' };
     beforeEach(() => {
       const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } }, locale: { loadedLocales: ['en'] } });
+      store = mockStore({ authentication: { account: { langKey: 'fa' } }, locale: { loadedLocales: ['fa'] } });
       axios.get = sinon.stub().returns(Promise.resolve(resolvedObject));
     });
 
@@ -172,10 +172,10 @@ describe('Authentication reducer tests', () => {
         {
           type: setLocale.pending.type,
         },
-        updateLocale('en'),
+        updateLocale('fa'),
         {
           type: setLocale.fulfilled.type,
-          payload: 'en',
+          payload: 'fa',
         },
       ];
       await store.dispatch(getSession());
@@ -219,7 +219,7 @@ describe('Authentication reducer tests', () => {
     let store;
     beforeEach(() => {
       const mockStore = configureStore([thunk]);
-      store = mockStore({ authentication: { account: { langKey: 'en' } } });
+      store = mockStore({ authentication: { account: { langKey: 'fa' } } });
     });
     it('clears the session token on clearAuthToken', async () => {
       const AUTH_TOKEN_KEY = 'jhi-authenticationToken';

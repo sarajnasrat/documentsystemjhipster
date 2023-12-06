@@ -1,24 +1,21 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm, Controller, useFormState } from 'react-hook-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { InputText } from 'primereact/inputtext';
-import { Translate, openFile, byteSize, TextFormat, translate } from 'react-jhipster';
-import { FileUpload, FileUploadSelectEvent } from 'primereact/fileupload';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { createEntity, getEntity, updateEntity, reset } from './document-info.reducer';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
+import { FileUpload, FileUploadSelectEvent } from 'primereact/fileupload';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import React, { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Translate, translate } from 'react-jhipster';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Button, Col, Row } from 'reactstrap';
+import { createEntity, getEntity, reset, updateEntity } from './document-info.reducer';
 
-import DatePicker, { DateObject } from 'react-multi-date-picker';
-import { Calendar } from 'react-multi-date-picker';
-import arabic from 'react-date-object/calendars/arabic';
-import arabic_fa from 'react-date-object/locales/arabic_fa';
-import { format } from 'date-fns';
-import arabic_ar from 'react-date-object/locales/arabic_ar';
-import arabic_en from 'react-date-object/locales/arabic_en';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
+import arabic from 'react-date-object/calendars/arabic';
+import arabic_ar from 'react-date-object/locales/arabic_ar';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 
 type FormData = {
   number: string;
@@ -35,11 +32,17 @@ const priorityOptions = [
   { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.confidential">Save</Translate>, value: 'most_confidential' },
   { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.mostConfidential">Save</Translate>, value: 'normal' },
 ];
+const dateType = [
+  { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.documentarrived">Save</Translate>, value: 'Arrival Document' },
+  { label: <Translate contentKey="documentmanagementsytemApp.documentInfo.documentissued">Save</Translate>, value: 'Document Issued' },
+];
 export const DocumentInfoUpdate = () => {
+  const [formReset, setFormReset] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const { control, handleSubmit } = useForm<FormData>();
   const documentInfoEntity = useAppSelector(state => state.documentInfo.entity);
   const updating = useAppSelector(state => state.documentInfo.updating);
@@ -47,7 +50,9 @@ export const DocumentInfoUpdate = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null); // Initialize with null
   const [selectedImageContentType, setSelectedImageContentType] = useState<string | null>(null); // Initialize with null
   const [formError, setFormError] = useState<string | null>(null);
+
   useEffect(() => {
+    dispatch(reset());
     if (isNew) {
       dispatch(reset());
     } else {
@@ -67,9 +72,6 @@ export const DocumentInfoUpdate = () => {
 
   const saveEntity = async (data: FormData) => {
     const georgianDate = format(new Date(data.issuedate), 'yyyy-MM-dd');
-    console.log(georgianDate);
-
-    console.log(data.issuedate);
     const entity = {
       ...documentInfoEntity,
       ...data,
@@ -83,6 +85,7 @@ export const DocumentInfoUpdate = () => {
     } else {
       await dispatch(updateEntity(entity));
     }
+    handleClose();
   };
   const defaultValues = () => {
     if (isNew) {
@@ -100,6 +103,20 @@ export const DocumentInfoUpdate = () => {
       };
     }
   };
+  const defaultValuess = () => {
+    {
+      return {
+        number: '',
+        registeredNumber: '',
+        issuedate: '',
+        subject: '',
+        dpriority: '',
+        scanPath: null, // Set scanPath to null as it's handled separately
+        content: '',
+        organization: '',
+      };
+    }
+  };
 
   useEffect(() => {
     if (!isNew) {
@@ -112,10 +129,10 @@ export const DocumentInfoUpdate = () => {
     }
   }, [documentInfoEntity]);
   const handleClose = () => {
-    navigate('/document-info' + documentInfoEntity.id);
+    navigate('/document-info');
   };
   return (
-    <div>
+    <div className="card">
       <Row className="justify-content-center">
         <Col md="12">
           <h2 id="documentmanagementsytemApp.documentInfo.home.createOrEditLabel" data-cy="DocumentInfoCreateUpdateHeading">
@@ -142,6 +159,30 @@ export const DocumentInfoUpdate = () => {
             </div> */}
           <Col sm="12" md="4">
             <div>
+              <label htmlFor="document-info-dpriority" className="form-label">
+                {translate('documentmanagementsytemApp.documentInfo.registeredNumber')}
+              </label>
+              <Controller
+                name="registeredNumber"
+                control={control}
+                defaultValue={defaultValues().registeredNumber}
+                rules={{ required: 'Priority is required' }}
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                  <div>
+                    <Dropdown
+                      filter
+                      value={value}
+                      options={dateType}
+                      onChange={e => onChange(e.value)}
+                      placeholder={translate('documentmanagementsytemApp.documentInfo.selectdocumenttype')}
+                      className="w-full md:w-20rem"
+                    />
+                    {error && <div className="error text-danger">{error.message}</div>}
+                  </div>
+                )}
+              />
+            </div>
+            <div>
               <label htmlFor="document-info-number" className="form-label">
                 {translate('documentmanagementsytemApp.documentInfo.number')}
               </label>
@@ -159,24 +200,6 @@ export const DocumentInfoUpdate = () => {
                 )}
               />
             </div>
-            <div>
-              <label htmlFor="document-info-registeredNumber" className="form-label">
-                {translate('documentmanagementsytemApp.documentInfo.registeredNumber')}
-              </label>
-              <Controller
-                name="registeredNumber"
-                defaultValue={defaultValues().registeredNumber}
-                control={control}
-                rules={{ required: 'Register Number is required' }}
-                render={({ field }) => (
-                  <>
-                    {' '}
-                    <InputText {...field} className="form-control" id="document-info-registeredNumber" />
-                    {/* <p className="text-danger">{errors.number && errors.registeredNumber.message}</p> Display error message */}
-                  </>
-                )}
-              />
-            </div>
 
             <div>
               <label htmlFor="document-info-organization" className="form-label">
@@ -186,15 +209,17 @@ export const DocumentInfoUpdate = () => {
                 name="organization"
                 control={control}
                 defaultValue={defaultValues().organization}
-                rules={{ required: 'organization is required' }}
-                render={({ field }) => (
+                rules={{ required: { value: true, message: translate('entity.validation.required') } }}
+                // rules={{ required: 'Number is required' }}
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <>
-                    {/* <p className="text-danger">{errors.number && errors.organization.message}</p> Display error message */}
-                    <InputText {...field} className="form-control" id="document-info-organization" />
+                    <InputText type="text" value={value} onChange={onChange} className="form-control" id="document-info-number" />
+                    <span>{error && <div className="error">{error.message}</div>}</span>
                   </>
                 )}
               />
             </div>
+
             <div>
               <label htmlFor="document-info-issuedate" className="form-label">
                 {translate('documentmanagementsytemApp.documentInfo.issuedate')}
@@ -226,7 +251,11 @@ export const DocumentInfoUpdate = () => {
                         }
                       }}
                     />
-                    <div>{errors && errors.issuedate && errors.issuedate.type === 'required' && <span>{'Date is Required'}</span>}</div>
+                    <div>
+                      {errors && errors.issuedate && errors.issuedate.type === 'required' && (
+                        <span>{<div className="danger">{'Date is required'}</div>}</span>
+                      )}
+                    </div>
                   </>
                 )}
               />
@@ -236,7 +265,7 @@ export const DocumentInfoUpdate = () => {
                 {translate('documentmanagementsytemApp.documentInfo.dpriority')}
               </label>
               <Controller
-                name="dpriority"
+                name="dpriority" // Use the correct name here
                 control={control}
                 defaultValue={defaultValues().dpriority}
                 rules={{ required: 'Priority is required' }}
@@ -244,9 +273,9 @@ export const DocumentInfoUpdate = () => {
                   <div>
                     <Dropdown
                       filter
-                      value={value}
+                      value={value} // Bind the value to the value from react-hook-form
                       options={priorityOptions}
-                      onChange={e => onChange(e.value)}
+                      onChange={onChange}
                       placeholder={translate('documentmanagementsytemApp.documentInfo.selectPriority')}
                       className="w-full md:w-20rem"
                     />
@@ -255,6 +284,7 @@ export const DocumentInfoUpdate = () => {
                 )}
               />
             </div>
+
             <div className="mt-5">
               <Button tag={Link} icon="pi pi-back" to="/document-info" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" /> <Translate contentKey="entity.action.back">Save</Translate>
@@ -273,11 +303,12 @@ export const DocumentInfoUpdate = () => {
                 name="subject"
                 defaultValue={defaultValues().subject}
                 control={control}
-                rules={{ required: 'subject is requird' }}
-                render={({ field }) => (
+                rules={{ required: { value: true, message: translate('entity.validation.required') } }}
+                // rules={{ required: 'Number is required' }}
+                render={({ field: { onChange, value }, fieldState: { error } }) => (
                   <>
-                    {/* <p className="text-danger">{errors.number && errors.subject.message}</p> Display error message */}
-                    <InputText {...field} className="form-control" id="document-info-subject" />
+                    <InputText type="text" value={value} onChange={onChange} className="form-control" id="document-info-number" />
+                    <span>{error && <div className="error">{error.message}</div>}</span>
                   </>
                 )}
               />
@@ -291,7 +322,6 @@ export const DocumentInfoUpdate = () => {
                 name="content"
                 control={control}
                 defaultValue={defaultValues().content}
-                rules={{ required: 'content is required' }}
                 render={({ field }) => (
                   <>
                     <InputTextarea {...field} autoResize rows={10} cols={30} className="form-control" />

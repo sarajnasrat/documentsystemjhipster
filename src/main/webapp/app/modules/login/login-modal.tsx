@@ -1,8 +1,7 @@
 import React from 'react';
-import { Translate, translate, ValidatedField } from 'react-jhipster';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row, Col, Form } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { Translate, translate, ValidatedField } from 'react-jhipster';
+import { Alert, Button, Col, Form, Modal, ModalBody, ModalFooter, ModalHeader, Row } from 'reactstrap';
 
 export interface ILoginModalProps {
   showModal: boolean;
@@ -81,18 +80,18 @@ const LoginModal = (props: ILoginModalProps) => {
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>
-          <Alert color="warning">
+          {/* <Alert color="warning">
             <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
               <Translate contentKey="login.password.forgot">Did you forget your password?</Translate>
             </Link>
-          </Alert>
+          </Alert> */}
           <Alert color="warning">
-            <span>
+            {/* <span>
               <Translate contentKey="global.messages.info.register.noaccount">You don&apos;t have an account yet?</Translate>
-            </span>{' '}
-            <Link to="/account/register">
+            </span>{' '} */}
+            {/* <Link to="/account/register">
               <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
-            </Link>
+            </Link> */}
           </Alert>
         </ModalBody>
         <ModalFooter>

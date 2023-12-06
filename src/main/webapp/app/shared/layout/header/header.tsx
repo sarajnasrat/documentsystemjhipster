@@ -1,52 +1,20 @@
-import './header.scss';
-import { Menubar } from 'primereact/menubar';
 import { Dropdown } from 'primereact/dropdown';
+import './header.scss';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Translate, Storage, translate } from 'react-jhipster';
-import LoadingBar from 'react-redux-loading-bar';
+import React, { useEffect, useRef, useState } from 'react';
+import { Storage, Translate, translate } from 'react-jhipster';
 
-import { isRTL, languages, locales } from 'app/config/translation';
-import { useAppDispatch } from 'app/config/store';
-import { setLocale } from 'app/shared/reducers/locale';
-import { useNavigate } from 'react-router-dom';
+import { faFlag, faLock, faSignOutAlt, faUserCircle, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppDispatch } from 'app/config/store';
+import { isRTL, languages, locales } from 'app/config/translation';
+import { setLocale } from 'app/shared/reducers/locale';
+import { Menu } from 'primereact/menu';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Form from 'react-bootstrap/Form';
-import {
-  faArchive,
-  faBook,
-  faCertificate,
-  faCheck,
-  faCheckDouble,
-  faCogs,
-  faEdit,
-  faEnvelope,
-  faFileArchive,
-  faFlag,
-  faHeartCircleCheck,
-  faLock,
-  faReply,
-  faScrewdriverWrench,
-  faSignOutAlt,
-  faSimCard,
-  faTableList,
-  faTachometerAlt,
-  faTowerBroadcast,
-  faUser,
-  faUserEdit,
-  faWrench,
-  faPersonArrowUpFromLine,
-  faUserCircle,
-  faSignInAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { Brand, BrandIcon } from './header-components';
-import { Menu } from 'primereact/menu';
-import { Button } from 'primereact/button';
-import { NavDropdown } from 'react-bootstrap';
-import { AccountMenu } from '../menus';
+import { useNavigate } from 'react-router-dom';
+import { Brand } from './header-components';
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -185,12 +153,12 @@ const Header = (props: IHeaderProps) => {
       command: () => navigateMenu('/logout'),
       className: 'transparent-font-family color-white',
     },
-    {
-      label: translate('global.menu.account.login'),
-      icon: <FontAwesomeIcon icon={faSignInAlt} size="xs" />,
-      command: () => navigateMenu('/login'),
-      className: 'transparent-font-family color-white',
-    },
+    // {
+    //   label: translate('global.menu.account.login'),
+    //   icon: <FontAwesomeIcon icon={faSignInAlt} size="xs" />,
+    //   command: () => navigateMenu('/login'),
+    //   className: 'transparent-font-family color-white',
+    // },
   ];
 
   const handleMenuClick = item => {};
@@ -221,18 +189,8 @@ const Header = (props: IHeaderProps) => {
       )}
     </div>
   );
-
-  // const accountMenu = 'some';
   return (
     <div className="p-menuitem">
-      {/* {renderDevRibbon()} */}
-      {/* <LoadingBar className="loading-bar  d-flex justify-content-between" />
-      <Menubar className='bg-black' style={{ height: "50px" }}
-        start={Brand}
-
-
-
-      /> */}
       <Navbar expand="lg" className="d-flex justify-content-end bg-primary">
         <Container fluid>
           <Navbar.Brand href=""></Navbar.Brand>

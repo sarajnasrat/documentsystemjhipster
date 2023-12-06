@@ -4,17 +4,17 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
+import { IDocumentInfo, defaultValue } from 'app/shared/model/document-info.model';
+import { EntityState } from 'app/shared/reducers/reducer.utils';
 import reducer, {
   createEntity,
   deleteEntity,
   getEntities,
   getEntity,
-  updateEntity,
   partialUpdateEntity,
   reset,
+  updateEntity,
 } from './document-info.reducer';
-import { EntityState } from 'app/shared/reducers/reducer.utils';
-import { IDocumentInfo, defaultValue } from 'app/shared/model/document-info.model';
 
 describe('Entities reducer tests', () => {
   function isEmpty(element): boolean {

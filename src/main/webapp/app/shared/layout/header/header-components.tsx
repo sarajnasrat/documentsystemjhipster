@@ -1,10 +1,9 @@
 import React from 'react';
-import { Translate, translate } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 
-import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
-import { NavLink as Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { round } from 'lodash';
+import { NavLink as Link } from 'react-router-dom';
+import { NavItem, NavLink, NavbarBrand } from 'reactstrap';
 
 export const BrandIcon = props => (
   <div {...props} className="brand-icon">
@@ -29,11 +28,11 @@ export const AdminPhoto = props => (
 
 export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
-    <BrandIcon />
+    {/* <BrandIcon /> */}
     <span className="brand-title">
       <Translate contentKey="documentmanagementsytemApp.documentInfo.home.documentmanagementsytem"> Document Management System</Translate>
     </span>
-    <span className="navbar-version">{VERSION}</span>
+    {/* <span className="navbar-version">{VERSION}</span> */}
   </NavbarBrand>
 );
 

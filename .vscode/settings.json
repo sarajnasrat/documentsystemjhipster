@@ -1,0 +1,8 @@
+{
+    "java.compile.nullAnalysis.mode": "disabled",
+    "cSpell.words": [
+        "documentmanagement",
+        "langlocale",
+        "primereact"
+    ]
+}

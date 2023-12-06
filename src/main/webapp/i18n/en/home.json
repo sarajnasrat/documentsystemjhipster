@@ -1,6 +1,9 @@
 {
   "home": {
     "title": "Welcome, Document Management System!",
+    "dashboard": {
+      "documentInfo": "All Saved Document"
+    },
     "subtitle": "This is your homepage",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."

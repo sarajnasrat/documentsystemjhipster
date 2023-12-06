@@ -2,7 +2,7 @@
   "userManagement": {
     "home": {
       "title": "کاربران",
-      "refreshListLabel": "Refresh list",
+      "refreshListLabel": "تازه سازی",
       "createLabel": "ایجاد یک کاربر جدید",
       "createOrEditLabel": "ایجاد و یا ویرایش یک کاربر"
     },
@@ -17,8 +17,8 @@
     },
     "login": "ورود",
     "firstName": "نام",
-    "lastName": "نام خانوادگی",
-    "email": "رایانامه",
+    "lastName": "تخلص",
+    "email": "ایمیل آدرس",
     "activated": "فعال شده",
     "deactivated": "غیر فعال شده",
     "profiles": "پروفایل ها",

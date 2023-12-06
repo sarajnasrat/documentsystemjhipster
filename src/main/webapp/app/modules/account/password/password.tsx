@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
-import { Row, Col, Button } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Translate, ValidatedField, ValidatedForm, translate } from 'react-jhipster';
 import { toast } from 'react-toastify';
+import { Button, Col, Row } from 'reactstrap';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
-import { savePassword, reset } from './password.reducer';
+import { getSession } from 'app/shared/reducers/authentication';
+import { reset, savePassword } from './password.reducer';
 
 export const PasswordPage = () => {
   const [password, setPassword] = useState('');
@@ -40,7 +40,7 @@ export const PasswordPage = () => {
   }, [successMessage, errorMessage]);
 
   return (
-    <div>
+    <div className="card">
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="password-title">

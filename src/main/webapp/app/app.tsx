@@ -1,35 +1,30 @@
-import 'react-toastify/dist/ReactToastify.css';
-import './app.scss';
 import 'app/config/dayjs.ts';
-import { Translate, Storage, translate } from 'react-jhipster';
 import React, { useEffect } from 'react';
-import { Card, Col, Collapse, Nav, Navbar, NavbarToggler, Row } from 'reactstrap';
-import { BrowserRouter, NavLink } from 'react-router-dom';
+import { Storage, translate } from 'react-jhipster';
+import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Card, Col, Row } from 'reactstrap';
+import './app.scss';
 
+import { faHome, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AUTHORITIES } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getSession } from 'app/shared/reducers/authentication';
-import { getProfile } from 'app/shared/reducers/application-profile';
-import { setLocale } from 'app/shared/reducers/locale';
-import Footer from 'app/shared/layout/footer/footer';
+import AppRoutes from 'app/routes';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
-import { AUTHORITIES } from 'app/config/constants';
-import AppRoutes from 'app/routes';
-import { AccountMenu, AdminMenu, LocaleMenu, EntitiesMenu } from './shared/layout/menus';
-import Header from './shared/layout/header/header';
-import EntitiesMenuItems from 'app/entities/menu';
-import { isRTL } from './config/translation';
-import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AdminPhoto, DocumentInfo, Home, UserManageMent } from './shared/layout/header/header-components';
-import { Menubar } from 'primereact/menubar';
-import { MegaMenu } from 'primereact/megamenu';
-import { PanelMenu } from 'primereact/panelmenu';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faHeartCircleCheck, faTableList, faTachometerAlt, faUser, faUserEdit, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { faBook } from '@fortawesome/free-solid-svg-icons/faBook';
+import { getProfile } from 'app/shared/reducers/application-profile';
+import { getSession } from 'app/shared/reducers/authentication';
+import { setLocale } from 'app/shared/reducers/locale';
 import { Button } from 'primereact/button';
+import { PanelMenu } from 'primereact/panelmenu';
+import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { isRTL } from './config/translation';
+import Header from './shared/layout/header/header';
+import { AdminPhoto } from './shared/layout/header/header-components';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 export interface IHeaderProps {
@@ -120,156 +115,60 @@ export const App = () => {
       return navigate(path);
     };
     const itemsss = [
-      // {
-      //   label: translate('global.menu.home'),
-      //   // icon: <FontAwesomeIcon icon="home" size="sm" />,
-      //   command: () => navigateMenu('/'),
-      //   visible: isAuthenticated && isAdmin,
-      //   className: 'transparent-font-family color-white',
-      // },
       {
-        label: translate('global.menu.entities.main'),
-        icon: <FontAwesomeIcon icon={faTableList} size="xs" />,
+        label: translate('global.menu.home'),
+        icon: <FontAwesomeIcon icon={faHome} size="xs" />,
+        command: () => navigateMenu('/home'),
         className: 'transparent-font-family color-white',
-        visible: isAuthenticated && isAdmin,
-        items: [
-          {
-            label: translate('global.menu.entities.documentInfo'),
-            icon: <FontAwesomeIcon icon={faBook} size="xs" />,
-            command: () => navigateMenu('/document-info'),
-            className: 'transparent-font-family color-white',
-          },
-        ],
       },
       {
-        label: translate('global.menu.admin.main'),
-        // icon: <FontAwesomeIcon icon={faScrewdriverWrench} size="xs" />,
+        label: translate('global.menu.entities.documentInfo'),
+        icon: <FontAwesomeIcon icon={faBook} size="xs" />,
+        command: () => navigateMenu('/document-info'),
         className: 'transparent-font-family color-white',
-        visible: isAuthenticated && isAdmin,
-
-        items: [
-          {
-            label: translate('global.menu.admin.userManagement'),
-            icon: <FontAwesomeIcon icon={faUsers} size="xs" />,
-            command: () => navigateMenu('/admin/user-management'),
-            className: 'transparent-font-family color-white',
-          },
-          {
-            label: translate('global.menu.admin.metrics'),
-            icon: <FontAwesomeIcon icon={faTachometerAlt} size="xs" />,
-            command: () => navigateMenu('/admin/metrics'),
-            className: 'transparent-font-family color-white',
-          },
-          {
-            label: translate('global.menu.admin.health'),
-            icon: <FontAwesomeIcon icon={faHeartCircleCheck} size="xs" />,
-            command: () => navigateMenu('/admin/health'),
-            className: 'transparent-font-family color-white',
-          },
-          {
-            label: translate('global.menu.admin.configuration'),
-            icon: <FontAwesomeIcon icon={faEdit} size="xs" />,
-            command: () => navigateMenu('/admin/configuration'),
-            className: 'transparent-font-family color-white',
-          },
-          {
-            label: translate('global.menu.admin.logs'),
-            icon: <FontAwesomeIcon icon={faBook} size="xs" />,
-            command: () => navigateMenu('/admin/logs'),
-            className: 'transparent-font-family color-white',
-          },
-          {
-            label: translate('global.menu.admin.apidocs'),
-            icon: <FontAwesomeIcon icon={faBook} size="xs" />,
-            command: () => navigateMenu('/admin/docs'),
-            className: 'transparent-font-family color-white',
-          },
-        ],
+      },
+      {
+        label: translate('global.menu.admin.userManagement'),
+        icon: <FontAwesomeIcon icon={faUsers} size="xs" />,
+        command: () => navigateMenu('/admin/user-management'),
+        className: 'transparent-font-family color-white',
       },
     ];
 
     return (
       <div className="sidebar" style={{ listStyleType: 'none', width: '200px', padding: '15px' }}>
-        <div>
-          {/* {customIcon} */}
-          <div className="sidbar-item">
-            <Home />
-          </div>
-          <PanelMenu model={itemsss} className="w-full md:w-25rem" />
-        </div>
-        {/* <Header
-        isAuthenticated={isAuthenticated}
-        isAdmin={isAdmin}
-        currentLocale={currentLocale}
-        ribbonEnv={ribbonEnv}
-        isInProduction={isInProduction}
-        isOpenAPIEnabled={isOpenAPIEnabled}
-      /> */}
-        {/* <div className='sideMenu'>
-        <div className="flex justify-content-center sidebarposition">
-          {items.map((item, index) => (
-            <NavLink to={item.key} key={index} className="navigationlink">
-              <div className="link-text">{item.label}</div>
-            </NavLink>
-          ))}
-        </div>
-      </div> */}
-
-        {/* <div className='sidbar-item'>
-          <DocumentInfo />
-        </div>
-        <div className='sidbar-item'>
-          <UserManageMent />
-        </div> */}
-        {/* <EntitiesMenu />
-
-        <AdminMenu showOpenAPI={props.isOpenAPIEnabled} />
-        <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-        <AccountMenu isAuthenticated={props.isAuthenticated} />
- */}
+        <div>{isAdmin && <PanelMenu model={itemsss} className="w-full md:w-25rem" />}</div>
       </div>
     );
   };
   return (
     <BrowserRouter basename={baseHref}>
-      <div className="app-container">
+      <div className="app-container" dir={currentLocale === 'fa' || currentLocale === 'pa' ? 'rtl' : 'ltr'}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
-        <div>
-          <ErrorBoundary>
-            <Header
-              isAuthenticated={isAuthenticated}
-              isAdmin={isAdmin}
-              currentLocale={currentLocale}
-              ribbonEnv={ribbonEnv}
-              isInProduction={isInProduction}
-              isOpenAPIEnabled={isOpenAPIEnabled}
-            />
-          </ErrorBoundary>
-        </div>
+        {isAdmin && (
+          <div>
+            <ErrorBoundary>
+              <Header
+                isAuthenticated={isAuthenticated}
+                isAdmin={isAdmin}
+                currentLocale={currentLocale}
+                ribbonEnv={ribbonEnv}
+                isInProduction={isInProduction}
+                isOpenAPIEnabled={isOpenAPIEnabled}
+              />
+            </ErrorBoundary>
+          </div>
+        )}
         <Row mb="4">
           {show ? (
             <>
-              <Col sm="12" md="2">
-                <SideBar />
-              </Col>
+              <SideBar />
               <Col sm="12" md="10">
                 <div className="d-flex justify-content-space-between">
-                  <div>
-                    <Button
-                      id="sidebar-show"
-                      className="no-outline"
-                      style={{ backgroundColor: 'GrayText', padding: 'none', borderRadius: 'none' }}
-                      icon="pi pi-list"
-                      onClick={toggleVisible}
-                    ></Button>
-                  </div>
                   <div className="container-fluid view-container" id="app-view-container">
-                    <Card className="jh-card">
-                      <ErrorBoundary>
-                        <AppRoutes />
-                      </ErrorBoundary>
-                    </Card>
-                    {/* <Footer /> */}
+                    <ErrorBoundary>
+                      <AppRoutes />
+                    </ErrorBoundary>
                   </div>
                 </div>
               </Col>
@@ -287,7 +186,7 @@ export const App = () => {
               </div>
 
               <div className="container-fluid view-container" id="app-view-container">
-                <Card className="jh-card">
+                <Card className="jh-card ">
                   <ErrorBoundary>
                     <AppRoutes />
                   </ErrorBoundary>

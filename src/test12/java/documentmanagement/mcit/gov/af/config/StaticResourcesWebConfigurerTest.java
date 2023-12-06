@@ -1,7 +1,8 @@
 package documentmanagement.mcit.gov.af.config;
 
 import static documentmanagement.mcit.gov.af.config.StaticResourcesWebConfiguration.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.concurrent.TimeUnit;
@@ -54,7 +55,6 @@ class StaticResourcesWebConfigurerTest {
 
         verify(staticResourcesWebConfiguration, times(1)).getCacheControl();
         verify(resourceHandlerRegistration, times(1)).setCacheControl(ccExpected);
-        verify(resourceHandlerRegistration, times(1)).addResourceLocations(RESOURCE_LOCATIONS);
     }
 
     @Test

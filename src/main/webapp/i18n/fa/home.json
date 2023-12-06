@@ -1,7 +1,11 @@
 {
   "home": {
     "title": "خوش آمدید, Java Hipster!",
+
     "subtitle": "این صفحه اصلی شماست",
+    "dashboard": {
+      "documentInfo": "تمام سند های ذخیره شده"
+    },
     "logged": {
       "message": "شما وارد شدید با کاربر \"{{username}}\"."
     },

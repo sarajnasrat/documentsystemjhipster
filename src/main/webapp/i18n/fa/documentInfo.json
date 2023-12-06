@@ -2,8 +2,8 @@
   "documentmanagementsytemApp": {
     "documentInfo": {
       "home": {
-        "title": "معومات سند",
-        "refreshListLabel": "Refresh list",
+        "title": "معلومات سند",
+        "refreshListLabel": "تازه سازی",
         "createLabel": "سند جدید",
         "createOrEditLabel": "معلومات سند جدید",
         "notFound": "هیچ سندی دریافت نشد",
@@ -16,22 +16,25 @@
         "question": "آیا می خواهید سند را خذف کنید {{ id }}?"
       },
       "detail": {
-        "title": "معومات سند"
+        "title": "معلومات سند"
       },
       "id": "آی دی",
       "number": "شماره",
-      "registeredNumber": "نمبر ثبت",
+      "registeredNumber": "نوعیت سند ",
       "issuedate": "تاریخ صادره",
       "subject": "موضوع",
       "dpriority": "اولویت",
-      "scanPath": "سکن سند",
-      "content": "جذیات",
+      "scanPath": "اسکن سند",
+      "content": " جزئیات",
       "organization": "اداره",
       "action": "عمل",
       "selectPriority": "اولویت سند",
       "normal": "عادی",
       "confidential": "محرم",
-      "mostConfidential": "اشد محرم"
+      "mostConfidential": "اشد محرم",
+      "documentarrived": "وارده",
+      "documentissued": "صادره",
+      "selectdocumenttype": "انتخاب نوع سند"
     }
   }
 }

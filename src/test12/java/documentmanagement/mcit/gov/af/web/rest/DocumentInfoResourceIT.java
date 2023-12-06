@@ -1,14 +1,13 @@
 package documentmanagement.mcit.gov.af.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
+import static org.assertj.core.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import documentmanagement.mcit.gov.af.IntegrationTest;
 import documentmanagement.mcit.gov.af.domain.DocumentInfo;
 import documentmanagement.mcit.gov.af.repository.DocumentInfoRepository;
-import documentmanagement.mcit.gov.af.service.criteria.DocumentInfoCriteria;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;

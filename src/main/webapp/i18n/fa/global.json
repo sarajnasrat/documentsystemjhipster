@@ -14,8 +14,8 @@
       "account": {
         "main": "حساب",
         "settings": "تنظیمات",
-        "password": "رمزعبور",
-        "sessions": "نشست ها",
+        "password": "پسورد",
+        "sessions": "جلسه ها",
         "login": "ورود",
         "logout": "خروج",
         "register": "ثبت نام"
@@ -37,14 +37,14 @@
     "form": {
       "username.label": "نام کاربری",
       "username.placeholder": "نام کاربری شما",
-      "currentpassword.label": "Current password",
-      "currentpassword.placeholder": "Current password",
-      "newpassword.label": "رمزعبور جدید",
-      "newpassword.placeholder": "رمزعبور جدید",
-      "confirmpassword.label": "تصدیق رمزعبور جدید",
-      "confirmpassword.placeholder": "تصدیق رمزعبور جدید",
-      "email.label": "رایانامه",
-      "email.placeholder": "آدرس رایانامه شما"
+      "currentpassword.label": "پسورد فعلی",
+      "currentpassword.placeholder": "پسورد فعلی",
+      "newpassword.label": "پسورد جدید",
+      "newpassword.placeholder": "پسورد جدید",
+      "confirmpassword.label": "تصدیق پسورد جدید",
+      "confirmpassword.placeholder": "تصدیق پسورد جدید",
+      "email.label": "ایمیل آدرس",
+      "email.placeholder": "آدرس ایمیل شما"
     },
     "messages": {
       "info": {
@@ -59,18 +59,18 @@
         }
       },
       "error": {
-        "dontmatch": "رمزعبور و تصدیق رمزعبور یکی نیستند!"
+        "dontmatch": "پسورد و تصدیق پسورد یکی نیستند!"
       },
       "validate": {
         "newpassword": {
-          "required": "رمزعبور شما ضروری است",
-          "minlength": "رمزعبور شما باید حداقل ۴ کرکتر باشد",
+          "required": "پسورد شما ضروری است",
+          "minlength": "پسورد شما باید حداقل ۴ کرکتر باشد",
           "maxlength": "رمز عبور شما نمی‌تواند بیش از ۵۰ کرکتر باشد.",
-          "strength": "قدرتمندی رمزعبور:"
+          "strength": "قدرتمندی پسورد:"
         },
         "confirmpassword": {
-          "required": "تصدیق رمزعبور شما ضروری است",
-          "minlength": "تصدیق رمزعبور شما باید حداقل ۴ کرکتر باشد",
+          "required": "تصدیق پسورد شما ضروری است",
+          "minlength": "تصدیق پسورد شما باید حداقل ۴ کرکتر باشد",
           "maxlength": "تصدیق رمز عبور شما نمی‌تواند بیش از ۵۰ کرکتر باشد."
         },
         "email": {

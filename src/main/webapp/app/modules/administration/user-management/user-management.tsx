@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table, Badge } from 'reactstrap';
-import { Translate, TextFormat, JhiPagination, JhiItemCount, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import { TextFormat, Translate, getSortState } from 'react-jhipster';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Badge, Button, Table } from 'reactstrap';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
-import { getUsersAsAdmin, updateUser } from './user-management.reducer';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
+import { getUsersAsAdmin, updateUser } from './user-management.reducer';
 
 export const UserManagement = () => {
   const dispatch = useAppDispatch();
@@ -85,7 +85,7 @@ export const UserManagement = () => {
   const loading = useAppSelector(state => state.userManagement.loading);
 
   return (
-    <div>
+    <div className="card">
       <h2 id="user-management-page-heading" data-cy="userManagementPageHeading">
         <Translate contentKey="userManagement.home.title">Users</Translate>
         <div className="d-flex justify-content-end">
@@ -101,37 +101,30 @@ export const UserManagement = () => {
       <Table responsive striped>
         <thead>
           <tr>
-            <th className="hand" onClick={sort('id')}>
+            <th className="hand">
               <Translate contentKey="global.field.id">ID</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th className="hand" onClick={sort('login')}>
               <Translate contentKey="userManagement.login">Login</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th className="hand" onClick={sort('email')}>
               <Translate contentKey="userManagement.email">Email</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th />
             <th className="hand" onClick={sort('langKey')}>
               <Translate contentKey="userManagement.langKey">Lang Key</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th>
               <Translate contentKey="userManagement.profiles">Profiles</Translate>
             </th>
             <th className="hand" onClick={sort('createdDate')}>
               <Translate contentKey="userManagement.createdDate">Created Date</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th className="hand" onClick={sort('lastModifiedBy')}>
               <Translate contentKey="userManagement.lastModifiedBy">Last Modified By</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th id="modified-date-sort" className="hand" onClick={sort('lastModifiedDate')}>
               <Translate contentKey="userManagement.lastModifiedDate">Last Modified Date</Translate>
-              <FontAwesomeIcon icon="sort" />
             </th>
             <th />
           </tr>
@@ -180,21 +173,21 @@ export const UserManagement = () => {
                 <div className="btn-group flex-btn-group-container">
                   <Button tag={Link} to={user.login} color="info" size="sm">
                     <FontAwesomeIcon icon="eye" />{' '}
-                    <span className="d-none d-md-inline">
+                    {/* <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.view">View</Translate>
-                    </span>
+                    </span> */}
                   </Button>
                   <Button tag={Link} to={`${user.login}/edit`} color="primary" size="sm">
                     <FontAwesomeIcon icon="pencil-alt" />{' '}
-                    <span className="d-none d-md-inline">
+                    {/* <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.edit">Edit</Translate>
-                    </span>
+                    </span> */}
                   </Button>
                   <Button tag={Link} to={`${user.login}/delete`} color="danger" size="sm" disabled={account.login === user.login}>
                     <FontAwesomeIcon icon="trash" />{' '}
-                    <span className="d-none d-md-inline">
+                    {/* <span className="d-none d-md-inline">
                       <Translate contentKey="entity.action.delete">Delete</Translate>
-                    </span>
+                    </span> */}
                   </Button>
                 </div>
               </td>
@@ -202,7 +195,7 @@ export const UserManagement = () => {
           ))}
         </tbody>
       </Table>
-      {totalItems ? (
+      {/* {totalItems ? (
         <div className={users?.length > 0 ? '' : 'd-none'}>
           <div className="justify-content-center d-flex">
             <JhiItemCount page={pagination.activePage} total={totalItems} itemsPerPage={pagination.itemsPerPage} i18nEnabled />
@@ -219,7 +212,7 @@ export const UserManagement = () => {
         </div>
       ) : (
         ''
-      )}
+      )} */}
     </div>
   );
 };

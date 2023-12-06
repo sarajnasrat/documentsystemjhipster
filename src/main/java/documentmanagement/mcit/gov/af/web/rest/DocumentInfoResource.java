@@ -23,14 +23,24 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link documentmanagement.mcit.gov.af.domain.DocumentInfo}.
+ * REST controller for managing
+ * {@link documentmanagement.mcit.gov.af.domain.DocumentInfo}.
  */
 @RestController
 @RequestMapping("/api")
@@ -63,7 +73,9 @@ public class DocumentInfoResource {
      * {@code POST  /document-infos} : Create a new documentInfo.
      *
      * @param documentInfo the documentInfo to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new documentInfo, or with status {@code 400 (Bad Request)} if the documentInfo has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new documentInfo, or with status {@code 400 (Bad Request)}
+     *         if the documentInfo has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/document-infos")
@@ -82,11 +94,14 @@ public class DocumentInfoResource {
     /**
      * {@code PUT  /document-infos/:id} : Updates an existing documentInfo.
      *
-     * @param id the id of the documentInfo to save.
+     * @param id           the id of the documentInfo to save.
      * @param documentInfo the documentInfo to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated documentInfo,
-     * or with status {@code 400 (Bad Request)} if the documentInfo is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the documentInfo couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated documentInfo,
+     *         or with status {@code 400 (Bad Request)} if the documentInfo is not
+     *         valid,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         documentInfo couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/document-infos/{id}")
@@ -114,14 +129,19 @@ public class DocumentInfoResource {
     }
 
     /**
-     * {@code PATCH  /document-infos/:id} : Partial updates given fields of an existing documentInfo, field will ignore if it is null
+     * {@code PATCH  /document-infos/:id} : Partial updates given fields of an
+     * existing documentInfo, field will ignore if it is null
      *
-     * @param id the id of the documentInfo to save.
+     * @param id           the id of the documentInfo to save.
      * @param documentInfo the documentInfo to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated documentInfo,
-     * or with status {@code 400 (Bad Request)} if the documentInfo is not valid,
-     * or with status {@code 404 (Not Found)} if the documentInfo is not found,
-     * or with status {@code 500 (Internal Server Error)} if the documentInfo couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated documentInfo,
+     *         or with status {@code 400 (Bad Request)} if the documentInfo is not
+     *         valid,
+     *         or with status {@code 404 (Not Found)} if the documentInfo is not
+     *         found,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         documentInfo couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/document-infos/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -154,7 +174,8 @@ public class DocumentInfoResource {
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of documentInfos in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of documentInfos in body.
      */
     @GetMapping("/document-infos")
     public ResponseEntity<List<DocumentInfo>> getAllDocumentInfos(
@@ -171,7 +192,8 @@ public class DocumentInfoResource {
      * {@code GET  /document-infos/count} : count all the documentInfos.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
+     *         in body.
      */
     @GetMapping("/document-infos/count")
     public ResponseEntity<Long> countDocumentInfos(DocumentInfoCriteria criteria) {
@@ -183,7 +205,8 @@ public class DocumentInfoResource {
      * {@code GET  /document-infos/:id} : get the "id" documentInfo.
      *
      * @param id the id of the documentInfo to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the documentInfo, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the documentInfo, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/document-infos/{id}")
     public ResponseEntity<DocumentInfo> getDocumentInfo(@PathVariable Long id) {
@@ -246,6 +269,10 @@ public class DocumentInfoResource {
                 documentInfos = documentInfoRepository.findBySubjectContainingIgnoreCase(subject, pageable);
             } else if (organization != null && !organization.isEmpty()) {
                 documentInfos = documentInfoRepository.findByOrganizationContainingIgnoreCase(organization, pageable);
+            } else if (
+                number == null || number.isEmpty() && subject == null || subject.isEmpty() && organization == null || organization.isEmpty()
+            ) {
+                documentInfos = documentInfoRepository.findByOrderByIssuedateDesc(pageable);
             } else {
                 String message = "No matching documents found.";
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Page.empty());

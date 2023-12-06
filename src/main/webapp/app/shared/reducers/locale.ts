@@ -1,6 +1,6 @@
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { TranslatorContext } from 'react-jhipster';
 

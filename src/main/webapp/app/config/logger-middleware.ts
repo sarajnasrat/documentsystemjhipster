@@ -1,5 +1,5 @@
 /* eslint no-console: off */
-export default () => next => action => {
+export default () => (next: (arg0: any) => any) => (action: { type: any; payload: any; meta: any; error: any }) => {
   if (DEVELOPMENT) {
     const { type, payload, meta, error } = action;
 

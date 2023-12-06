@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Badge } from 'reactstrap';
-import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect } from 'react';
+import { TextFormat, Translate } from 'react-jhipster';
+import { Link, useParams } from 'react-router-dom';
+import { Badge, Button, Col, Row } from 'reactstrap';
 
 import { APP_DATE_FORMAT } from 'app/config/constants';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { languages } from 'app/config/translation';
 import { getUser } from './user-management.reducer';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 export const UserManagementDetail = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ export const UserManagementDetail = () => {
   const user = useAppSelector(state => state.userManagement.user);
 
   return (
-    <div>
+    <div className="card">
       <h2>
         <Translate contentKey="userManagement.detail.title">User</Translate> [<strong>{user.login}</strong>]
       </h2>
@@ -94,12 +94,16 @@ export const UserManagementDetail = () => {
           </dd>
         </dl>
       </Row>
-      <Button tag={Link} to="/admin/user-management" replace color="info">
-        <FontAwesomeIcon icon="arrow-left" />{' '}
-        <span className="d-none d-md-inline">
-          <Translate contentKey="entity.action.back">Back</Translate>
-        </span>
-      </Button>
+      <Row>
+        <Col>
+          <Button tag={Link} to="/admin/user-management" replace color="info">
+            <FontAwesomeIcon icon="arrow-left" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="entity.action.back">Back</Translate>
+            </span>
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };

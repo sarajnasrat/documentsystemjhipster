@@ -1,39 +1,33 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Col, Row, Table } from 'reactstrap';
-import { openFile, byteSize, Translate, TextFormat, getSortState, JhiPagination, JhiItemCount, translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Column } from 'primereact/column';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { Paginator } from 'primereact/paginator';
-import { IDocumentInfo } from 'app/shared/model/document-info.model';
-import { getEntities } from './document-info.reducer';
-import { InputText } from 'primereact/inputtext';
-import { DataTable } from 'primereact/datatable';
-import { Image } from 'primereact/image';
-import axios from 'axios';
-import { faHome, faRefresh, faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
-import { Button } from 'primereact/button';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { AutoComplete } from 'primereact/autocomplete';
-import { trim } from 'lodash';
+import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Paginator } from 'primereact/paginator';
+import React, { useEffect, useState } from 'react';
+import { Translate, getSortState, translate } from 'react-jhipster';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Col, Row } from 'reactstrap';
 import { searchDocuments } from '../document-info/document-info.reducer';
+import { getEntities } from './document-info.reducer';
 export const DocumentInfo = () => {
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
   const documentInfoEntity = useAppSelector(state => state.documentInfo.entity);
+  const [searchval, setSearchval] = useState(false);
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const documentInfoList = useAppSelector(state => state.documentInfo.entities);
   const loading = useAppSelector(state => state.documentInfo.loading);
   const totalItems = useAppSelector(state => state.documentInfo.totalItems);
-  const [totalResults, setTotalResults] = useState(0);
+  const [totalResults, setTotalResults] = useState(null);
   const getAllEntities = () => {
     dispatch(
       getEntities({
@@ -78,11 +72,12 @@ export const DocumentInfo = () => {
     });
   };
 
-  const handlePagination = currentPage =>
+  const handlePagination = () => {
     setPaginationState({
       ...paginationState,
       activePage: currentPage,
     });
+  };
 
   const handleSyncList = () => {
     sortEntities();
@@ -117,8 +112,8 @@ export const DocumentInfo = () => {
       if (selectNumber || selectSubject || selectOrganization) {
         const results = await searchDocuments(selectNumber, selectSubject, selectOrganization, currentPage, paginationState.itemsPerPage);
         newResults = results.content;
-        console.log(newResults);
         setTotalResults(results.totalElements);
+        setSearchval(true);
       } else {
         const entities = getEntities({
           page: currentPage - 1,
@@ -146,7 +141,9 @@ export const DocumentInfo = () => {
     setSelectOrganization(e.value);
   };
   useEffect(() => {
-    handleSearch();
+    if (searchval) {
+      handleSearch();
+    }
   }, [currentPage]);
   const header = (
     <div className="table-header">
@@ -156,18 +153,6 @@ export const DocumentInfo = () => {
             <Translate contentKey="documentmanagementsytemApp.documentInfo.home.title">Document List</Translate>
           </h2>
         </div>
-
-        {/* <div className="btns-wrap">
-        <Button
-          icon={<FontAwesomeIcon icon={faSync} spin={loading} />}
-          onClick={handleSyncList}
-         
-          disabled={loading}
-          severity="info"
-         
-          raised
-        />
-        </div> */}
         <div className="btns-wrap">
           <Button
             iconPos="left"
@@ -224,25 +209,7 @@ export const DocumentInfo = () => {
       </div>
     </div>
   );
-
-  // const actionTemplate = rowData => {
-  //   return (
-  //     <div className="p-buttonset">
-  //       <Link to={`/document-info/${rowData.id}`} className="btn btn-info" title="View">
-  //         <FontAwesomeIcon icon="eye" />
-  //       </Link>
-  //       <Link to={`/document-info/${rowData.id}/edit`} className="btn btn-primary" title="Edit">
-  //         <FontAwesomeIcon icon="pencil-alt" />
-  //       </Link>
-  //       <Link to={`/document-info/${rowData.id}/delete`} className="btn btn-danger" title="Delete">
-  //         <FontAwesomeIcon icon="trash" />
-  //       </Link>
-  //     </div>
-  //   );
-  // };
   const actionTemplate = rowData => {
-    // Use useNavigate to get the navigate function
-
     return (
       <div className="p-buttonset">
         <Button
@@ -251,19 +218,7 @@ export const DocumentInfo = () => {
           className="p-button-info"
           onClick={() => navigate(`/document-info/${rowData.id}`)}
         />
-        {/* <Button
-          // label="Edit"
-          
-          icon="pi pi-pencil"
-          className="p-button-primary"
-          onClick={() => navigate(`/document-info/${rowData.id}/edit`)}
-        /> */}
-        <Button
-          // label="Delete"
-          icon="pi pi-trash"
-          className="p-button-danger"
-          onClick={() => navigate(`/document-info/${rowData.id}/delete`)}
-        />
+        <Button icon="pi pi-trash" className="p-button-danger" onClick={() => navigate(`/document-info/${rowData.id}/delete`)} />
       </div>
     );
   };
@@ -281,7 +236,7 @@ export const DocumentInfo = () => {
   };
 
   return (
-    <div>
+    <div className="card" style={{ height: '500px' }}>
       {header}
       <div className="table-responsive">
         <DataTable
@@ -291,7 +246,6 @@ export const DocumentInfo = () => {
           totalRecords={totalResults}
           loading={loading}
           scrollable={true}
-          scrollHeight="30vh"
           showGridlines
           stripedRows
           editMode="cell"
@@ -316,14 +270,18 @@ export const DocumentInfo = () => {
           <Column field="organization" header={translate('documentmanagementsytemApp.documentInfo.organization')}></Column>
           <Column header={translate('documentmanagementsytemApp.documentInfo.action')} body={actionTemplate}></Column>
         </DataTable>
-        <div>
-          <Paginator
-            first={currentPage * paginationState.itemsPerPage}
-            rows={paginationState.itemsPerPage}
-            totalRecords={totalResults}
-            onPageChange={onPageChange}
-          />
-        </div>
+        {totalResults && (
+          <div className="p-rtl-paginator-container">
+            <div className="p-rtl-paginator">
+              <Paginator
+                first={currentPage * paginationState.itemsPerPage}
+                rows={paginationState.itemsPerPage}
+                totalRecords={totalResults}
+                onPageChange={onPageChange}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

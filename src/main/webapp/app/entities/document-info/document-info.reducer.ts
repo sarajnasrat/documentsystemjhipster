@@ -1,9 +1,9 @@
+import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { createAsyncThunk, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import { cleanEntity } from 'app/shared/util/entity-utils';
-import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { IDocumentInfo, defaultValue } from 'app/shared/model/document-info.model';
+import { EntityState, IQueryParams, createEntitySlice, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { cleanEntity } from 'app/shared/util/entity-utils';
 
 const initialState: EntityState<IDocumentInfo> = {
   loading: false,
@@ -75,7 +75,8 @@ export const deleteEntity = createAsyncThunk(
 );
 export const searchDocuments = async (selectNumber, selectSubject, selectOrganization, page, size) => {
   try {
-    const response = await axios.get('http://localhost:8080/api/searchdocument', {
+    //http://localhost:8080/api/
+    const response = await axios.get('api/searchdocument', {
       params: {
         number: selectNumber,
         subject: selectSubject,

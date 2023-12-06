@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
+import { AUTHORITIES } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { login } from 'app/shared/reducers/authentication';
 import LoginModal from './login-modal';
 
@@ -13,7 +15,7 @@ export const Login = () => {
   const [showModal, setShowModal] = useState(showModalLogin);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   useEffect(() => {
     setShowModal(true);
   }, []);
@@ -29,6 +31,7 @@ export const Login = () => {
   if (isAuthenticated) {
     return <Navigate to={from} replace />;
   }
+  // return <Navigate to ={'/xyz'}/>
   return <LoginModal showModal={showModal} handleLogin={handleLogin} handleClose={handleClose} loginError={loginError} />;
 };
 

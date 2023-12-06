@@ -1,7 +1,7 @@
-import thunk from 'redux-thunk';
 import axios from 'axios';
-import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import sinon from 'sinon';
 
 import activate, { activateAction, reset } from './activate.reducer';
 

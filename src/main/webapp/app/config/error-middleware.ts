@@ -1,14 +1,14 @@
 const getErrorMessage = errorData => {
   let message = errorData.message;
   if (errorData.fieldErrors) {
-    errorData.fieldErrors.forEach(fErr => {
+    errorData.fieldErrors.forEach((fErr: { field: any; objectName: any; message: any }) => {
       message += `\nfield: ${fErr.field},  Object: ${fErr.objectName}, message: ${fErr.message}\n`;
     });
   }
   return message;
 };
 
-export default () => next => action => {
+export default () => (next: (arg0: any) => any) => (action: { type?: any; error?: any }) => {
   /**
    *
    * The error middleware serves to log error messages from dispatch

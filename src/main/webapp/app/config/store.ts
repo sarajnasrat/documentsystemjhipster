@@ -4,8 +4,8 @@ import { loadingBarMiddleware } from 'react-redux-loading-bar';
 
 import sharedReducers from 'app/shared/reducers';
 import errorMiddleware from './error-middleware';
-import notificationMiddleware from './notification-middleware';
 import loggerMiddleware from './logger-middleware';
+import notificationMiddleware from './notification-middleware';
 
 const store = configureStore({
   reducer: sharedReducers,

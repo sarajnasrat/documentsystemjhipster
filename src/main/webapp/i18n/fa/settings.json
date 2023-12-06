@@ -4,8 +4,8 @@
     "form": {
       "firstname": "نام",
       "firstname.placeholder": "نام شما",
-      "lastname": "نام خانوادگی",
-      "lastname.placeholder": "نام خانوادگی شما",
+      "lastname": "تخلص",
+      "lastname.placeholder": "تخلص شما",
       "language": "زبان",
       "button": "ذخیره"
     },

@@ -7,7 +7,7 @@
         "createLabel": "Create New",
         "createOrEditLabel": "Create or edit a Document Info",
         "notFound": "No Document Infos found",
-        "documentmanagementsytem": "DocumentManagement"
+        "documentmanagementsytem": "DocumentManagementSystem"
       },
       "created": "A new Document Info is created with identifier {{ param }}",
       "updated": "A Document Info is updated with identifier {{ param }}",
@@ -20,7 +20,7 @@
       },
       "id": "ID",
       "number": "Number",
-      "registeredNumber": "Registered Number",
+      "registeredNumber": "Document Type",
       "issuedate": "Issuedate",
       "subject": "Subject",
       "dpriority": "Dpriority",
@@ -31,7 +31,10 @@
       "selectPriority": "Select Priority",
       "normal": "Normal",
       "confidential": "Confedential",
-      "mostConfidential": "Most Confedential"
+      "mostConfidential": "Most Confedential",
+      "documentarrived": "Arrived",
+      "documentissued": "Issued",
+      "selectdocumenttype": "Select Document Type"
     }
   }
 }

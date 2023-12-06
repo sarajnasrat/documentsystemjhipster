@@ -1,14 +1,14 @@
-import thunk from 'redux-thunk';
 import axios from 'axios';
-import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
 import { TranslatorContext } from 'react-jhipster';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import sinon from 'sinon';
 
-import password, { savePassword, reset } from './password.reducer';
+import password, { reset, savePassword } from './password.reducer';
 
 describe('Password reducer tests', () => {
   beforeAll(() => {
-    TranslatorContext.registerTranslations('en', {});
+    TranslatorContext.registerTranslations('fa', {});
   });
 
   describe('Common tests', () => {

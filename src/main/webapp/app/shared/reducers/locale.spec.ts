@@ -1,12 +1,12 @@
 import axios from 'axios';
-import sinon from 'sinon';
+import { TranslatorContext } from 'react-jhipster';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { TranslatorContext } from 'react-jhipster';
+import sinon from 'sinon';
 
-import locale, { setLocale, updateLocale, loaded, addTranslationSourcePrefix } from 'app/shared/reducers/locale';
+import locale, { addTranslationSourcePrefix, loaded, setLocale, updateLocale } from 'app/shared/reducers/locale';
 
-const defaultLocale = 'en';
+const defaultLocale = 'fa';
 
 describe('Locale reducer tests', () => {
   it('should return the initial state', () => {

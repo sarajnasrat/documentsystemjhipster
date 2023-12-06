@@ -3,9 +3,9 @@ import { Route } from 'react-router-dom';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import UserManagement from './user-management';
+import UserManagementDeleteDialog from './user-management-delete-dialog';
 import UserManagementDetail from './user-management-detail';
 import UserManagementUpdate from './user-management-update';
-import UserManagementDeleteDialog from './user-management-delete-dialog';
 
 const UserManagementRoutes = () => (
   <ErrorBoundaryRoutes>
